@@ -1,10 +1,10 @@
 initial(
-[green, white, black, green, black, green],
+[[green, white, black, green, black, green],
 [black, green, green, white, green, white],
 [green, white, black, green, black, green],
 [black, white, green, green, green, white],
-[gree, green, green, green, white, black],
-[white, white, black, green, black, green]).
+[green, green, green, green, white, black],
+[white, white, black, green, black, green]]).
 
 symbol(black, S):- S='B'.
 symbol(white, S):- S='W'.
