@@ -1,3 +1,5 @@
+:-set_prolog_flag(legacy_char_classification, on).
+
 initial(
 [[green, white, black, green, black, green],
 [black, green, green, white, green, white],
