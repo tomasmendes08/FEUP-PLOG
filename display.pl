@@ -16,6 +16,15 @@ midgameBoard([
 [[black,0], [white,0], [black,0], [green,1], [black,0], [green,1]]
 ]).
 
+endgameBoard([
+[[empty,0], [empty,0], [empty,0], [empty,0], [empty,0], [green,1]],
+[[empty,0], [white,8], [empty,0], [empty,0], [empty,0], [empty,0]],
+[[empty,0], [empty,0], [empty,0], [empty,0], [empty,0], [empty,0]],
+[[empty,0], [empty,0], [black,6], [empty,0], [empty,0], [empty,0]],
+[[empty,0], [empty,0], [empty,0], [empty,0], [black,3], [empty,0]],
+[[empty,0], [empty,0], [empty,0], [empty,0], [empty,0], [empty,0]]
+]).
+
 
 
 symbol(green, 1, S):- S='G1'.
