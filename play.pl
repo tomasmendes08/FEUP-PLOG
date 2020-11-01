@@ -4,7 +4,7 @@ play:-
     %gameLoop(Player1, Player2, GameState).
 
 initial(GameState):-
-    endgameBoard(GameState).
+    initialBoard(GameState).
 
 display_game(GameState):-
     printBoard(GameState).
