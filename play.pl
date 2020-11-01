@@ -1,3 +1,3 @@
 play:-
     initial(Board),
-    printBoard(Board).
+    printBoardX(Board).
