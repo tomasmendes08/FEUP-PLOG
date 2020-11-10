@@ -1,28 +1,35 @@
     
+movePiece(GameState, SelectCol, SelectRow, Content, Player, MoveDoneGameState, NewPlayer):-
+    write('\nChoose Piece:\n\n'),
+    readCol(SelectCol),
+    readRow(SelectRow),
+    write('\n123\n'),
+    getMatrixAt(SelectRow, SelectCol, GameState, Content),
+    write('\n\nChoose your move:\n\n'),
+    readCol(MoveCol),
+    readRow(MoveRow),
+    getMatrixAt(MoveRow, MoveCol, GameState, MoveContent),
+    nl,
+    write(GameState),
+    nl,
+    write('\nhello\n'),
+    replaceEmpty(GameState, SelectRow, SelectCol, [empty], NewGameState),
+    replaceCell(NewGameState, MoveRow, MoveCol, Content, MoveDoneGameState),
+    nl,
+    write(MoveDoneGameState),
+    nl,
+    getMatrixAt(MoveRow, MoveCol, MoveDoneGameState, AfterMoveContent),
+    swapPlayers(Player, NewPlayer).
 
-/*movePiece(GameState, SelectCol, SelectRow, Content, Player, MoveDoneGameState):-
-    write('\nChoose Piece\n'),
-    readCol(Col),
-    checkCol(Col, SelectCol),
-    readRow(Row),
-    checkRow(Row, SelectRow),
-    validateContent(SelectCol, SelectRow, Player, GameState, Content, MoveDoneGameState),
-    write('\nChoose your move\n'),
-    readCol(Col),
-    checkCol(Col, MoveCol),
-    checkColMove(SelectCol, MoveCol, MovedCol, FinalCol),
-    readRow(Row),
-    checkRow(Row, SelectRow),
-    checkRowMove(SelectRow, MoveRow, MovedRow, FinalRow),
-    validateMove(MoveCol, MoveRow, SelectCol, SelectRow, GameState, Player, Content, MoveDoneGameState).*/
-    
+swapPlayers(1, 2).
+swapPlayers(2, 1).
 
 readCol(Col):-
     write('Column: '),
     read(Col).
 
 readRow(Row):-
-    write(' Row: '),
+    write('Row: '),
     read(Row).
 
 checkCol(0, SelectCol):- SelectCol=0.
