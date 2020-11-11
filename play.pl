@@ -17,10 +17,14 @@ gameLoop(Player1, Player2, GameState):-
     initial(GameState),
     assert(state(Player1, GameState)),
     repeat,
-        retract(state(Player, GameState)),
-        once(movePiece(GameState, SelectCol, SelectRow, Content, Player, MoveDoneGameState, NextPlayer)),
+        write('\naqui1\n'),
+        retract(state(Player1, GameState)),
+        write('\naqui2\n'),
+        once(movePiece(GameState, SelectCol, SelectRow, Content, Player1, MoveDoneGameState, Player2)),
+        assert(state(Player2, MoveDoneGameState)),
+        write('\naqui3\n'),
         once(printBoard(MoveDoneGameState)),
-        assert(state(NextPlayer, MoveDoneGameState)),
+        write('\naqui4\n'),
         fail.
 
 endGame:-

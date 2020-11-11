@@ -27,7 +27,7 @@ endgameBoard([
 
 
 
-symbol(green, 1, S):- S='G1'.
+/*symbol(green, 1, S):- S='G1'.
 symbol(empty, 0, S):- S='  '.
 
 symbol(black, 0, S):- S='B0'.
@@ -56,7 +56,29 @@ symbol(white, 8, S):- S='W8'.
 symbol(white, 9, S):- S='W9'.
 symbol(white, 10, S):- S='W10'.
 symbol(white, 11, S):- S='W11'.
-symbol(white, 12, S):- S='W12'.
+symbol(white, 12, S):- S='W12'.*/
+
+
+symbol(green, S):- S='G'.
+symbol(empty, S):- S=' '.
+
+symbol(white, S):- S='W'.
+symbol(black, S):- S='B'.
+
+symbol(0, S):- S=' '.
+symbol(1, S):- S='1'.
+symbol(2, S):- S='2'.
+symbol(3, S):- S='3'.
+symbol(4, S):- S='4'.
+symbol(5, S):- S='5'.
+symbol(6, S):- S='6'.
+symbol(7, S):- S='7'.
+symbol(8, S):- S='8'.
+symbol(9, S):- S='9'.
+symbol(10, S):- S='10'.
+symbol(11, S):- S='11'.
+symbol(12, S):- S='12'.
+
 
 printBoard(B):-
     nl,
@@ -83,7 +105,14 @@ printLinesAux([H|T]):-
     write(' | '),
     printLinesAux(T).
 
-printCell([H|[H2|_]]):-
-    symbol(H, H2, S),
+printCell([H|T]):-
+    symbol(H,S),
+    write(S),
+    getLastElement([H|T]).
+
+getLastElement([T]):-
+    symbol(T,S),
     write(S).
-    
+getLastElement([H|T]):-
+    getLastElement(T).
+

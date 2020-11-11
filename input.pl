@@ -13,7 +13,7 @@ movePiece(GameState, SelectCol, SelectRow, Content, Player, MoveDoneGameState, N
     write(GameState),
     nl,
     write('\nhello\n'),
-    replaceEmpty(GameState, SelectRow, SelectCol, [empty], NewGameState),
+    replaceEmpty(GameState, SelectRow, SelectCol, [empty, 0], NewGameState),
     replaceCell(NewGameState, MoveRow, MoveCol, Content, MoveDoneGameState),
     nl,
     write(MoveDoneGameState),
