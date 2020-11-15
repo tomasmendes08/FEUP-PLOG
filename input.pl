@@ -1,25 +1,48 @@
-    
-movePiece(GameState, SelectCol, SelectRow, Content, Player, MoveDoneGameState, NewPlayer):-
-    write('\nChoose Piece:\n\n'),
+movePiece(GameState, SelectCol, SelectRow, Content, MoveDoneGameState, 'white'):-
+    %need a repeat here in case of bad input
+    write('\nChoose White Piece:\n\n'),
     readCol(SelectCol),
     readRow(SelectRow),
-    write('\n123\n'),
     getMatrixAt(SelectRow, SelectCol, GameState, Content),
+
+    %need a repeat here in case of bad input
     write('\n\nChoose your move:\n\n'),
     readCol(MoveCol),
     readRow(MoveRow),
     getMatrixAt(MoveRow, MoveCol, GameState, MoveContent),
     nl,
-    write(GameState),
+    %write(GameState),
     nl,
-    write('\nhello\n'),
+    %write('\nhello\n'),
     replaceEmpty(GameState, SelectRow, SelectCol, [empty, 0], NewGameState),
     replaceCell(NewGameState, MoveRow, MoveCol, Content, MoveDoneGameState),
+    nl.
+    %write(MoveDoneGameState),
+    %nl,
+    %getMatrixAt(MoveRow, MoveCol, MoveDoneGameState, AfterMoveContent).
+
+
+movePiece(GameState, SelectCol, SelectRow, Content, MoveDoneGameState, 'black'):-
+    write('\nChoose Black Piece:\n\n'),
+    readCol(SelectCol),
+    readRow(SelectRow),
+    getMatrixAt(SelectRow, SelectCol, GameState, Content),
+
+    write('\n\nChoose your move:\n\n'),
+    readCol(MoveCol),
+    readRow(MoveRow),
+    getMatrixAt(MoveRow, MoveCol, GameState, MoveContent),
+
     nl,
-    write(MoveDoneGameState),
+    %write(GameState),
     nl,
-    getMatrixAt(MoveRow, MoveCol, MoveDoneGameState, AfterMoveContent),
-    swapPlayers(Player, NewPlayer).
+    %write('\nhello\n'),
+    replaceEmpty(GameState, SelectRow, SelectCol, [empty, 0], NewGameState),
+    replaceCell(NewGameState, MoveRow, MoveCol, Content, MoveDoneGameState),
+    nl.
+    %write(MoveDoneGameState),
+    %nl,
+    %getMatrixAt(MoveRow, MoveCol, MoveDoneGameState, AfterMoveContent).
 
 swapPlayers(1, 2).
 swapPlayers(2, 1).
