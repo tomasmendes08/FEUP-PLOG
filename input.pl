@@ -47,13 +47,15 @@ movePiece(GameState, SelectCol, SelectRow, Content, MoveDoneGameState, 'black'):
 swapPlayers(1, 2).
 swapPlayers(2, 1).
 
-readCol(Col):-
+readCol(SelectCol):-
     write('Column: '),
-    read(Col).
+    read(Col),
+    checkCol(Col, SelectCol).
 
-readRow(Row):-
+readRow(SelectRow):-
     write('Row: '),
-    read(Row).
+    read(Row),
+    checkRow(Row, SelectRow).
 
 checkCol(0, SelectCol):- SelectCol=0.
 checkCol(1, SelectCol):- SelectCol=1.
@@ -63,9 +65,8 @@ checkCol(4, SelectCol):- SelectCol=4.
 checkCol(5, SelectCol):- SelectCol=5.
 checkCol(_Col, SelectCol):-
     write('Invalid column\n'),
-    write('Select another column: '),
-    readCol(NewColumn),
-    checkCol(NewColumn, SelectCol).
+    write('Select another column:\n'),
+    readCol(SelectCol).
 
 checkRow(0, SelectRow):- SelectRow = 0.
 checkRow(1, SelectRow):- SelectRow = 1.
@@ -75,9 +76,8 @@ checkRow(4, SelectRow):- SelectRow = 4.
 checkRow(5, SelectRow):- SelectRow = 5.
 checkRow(_Row, SelectRow):-
     write('Invalid row\n'),
-    write('Select another row: '),
-    readCol(NewRow),
-    checkCol(NewRow, SelectRow).
+    write('Select another row:\n'),
+    readRow(SelectRow).
 /*
 checkColMove(SelectCol, MoveCol, MovedCol, FinalCol):-
     MoveCol=:=SelectCol+1, MovedCol = 1, FinalCol is MoveCol;
