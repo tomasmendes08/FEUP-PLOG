@@ -17,7 +17,7 @@ gameLoop(Player1, Player2, GameState):-
     initial(GameState),
     assert(state(Player1, GameState)),
     repeat,
-        write('\naqui1\n'),
+        %write('\naqui1\n'),
         retract(state(Player1, GameState)),
         write('\naqui2\n'),
         once(movePiece(GameState, SelectCol, SelectRow, Content, Player1, MoveDoneGameState, Player2)),

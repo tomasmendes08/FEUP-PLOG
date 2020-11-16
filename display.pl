@@ -108,11 +108,18 @@ printLinesAux([H|T]):-
 printCell([H|T]):-
     symbol(H,S),
     write(S),
-    getLastElement([H|T]).
+    Counter is 0,
+    countGreen([H|T], 'green', Counter),
+    symbol(Counter, S2),
+    write(S2).
 
-getLastElement([T]):-
-    symbol(T,S),
-    write(S).
-getLastElement([H|T]):-
-    getLastElement(T).
+countGreen([], _, Counter).
+countGreen([H|T], H, Counter):-
+    %write('\n123\n'),
+    NewCounter is Counter+1,
+    countGreen(T, H, NewCounter).
+countGreen([_|T], H2, Counter):-
+    %write('\n1\n'),
+    countGreen(T, H2, Counter).
+
 
