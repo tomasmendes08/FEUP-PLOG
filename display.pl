@@ -108,11 +108,11 @@ printLinesAux([H|T]):-
 printCell([H|T]):-
     symbol(H,S),
     write(S),
-    getLastElement([H|T]).
-
-getLastElement([T]):-
-    symbol(T,S),
-    write(S).
-getLastElement([H|T]):-
     getLastElement(T).
+    
+getLastElement([X]):-
+    symbol(X,Points),
+    write(Points).
 
+getLastElement([Y|Tail]):-
+    getLastElement(Tail).

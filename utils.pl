@@ -21,7 +21,7 @@ getMatrixAt(0, Column, [HeaderLines|_], Number):-
   nl.*/
 
 getMatrixAt(Line, Column, [_|TailLines], Number):-
-  write('\n1\n'),
+  %write('\n1\n'),
 	Line > 0,
 	NewLine is Line-1,
 	getMatrixAt(NewLine, Column, TailLines, Number).
@@ -33,7 +33,7 @@ getMatrixAt(Line, Column, [_|TailLines], Number):-
 getLineAt(0, [HeaderNumbers|_], HeaderNumbers).
 
 getLineAt(Index, [_|TailNumbers], Number):-
-  write('\n2\n'),
+  %write('\n2\n'),
 	Index > 0,
 	NewIndex is Index-1,
 	getLineAt(NewIndex, TailNumbers, Number).
