@@ -1,21 +1,21 @@
-movePiece(GameState, SelectCol, SelectRow, Content, MoveDoneGameState, 'white'):-
+movePiece(GameState, SelectWhiteCol, SelectWhiteRow, Content, MoveDoneGameState, 'white'):-
     %need a repeat here in case of bad input
     write('\nChoose White Piece:\n\n'),
-    readCol(SelectCol),
-    readRow(SelectRow),
-    getMatrixAt(SelectRow, SelectCol, GameState, Content),
+    readCol(SelectWhiteCol),
+    readRow(SelectWhiteRow),
+    getMatrixAt(SelectWhiteRow, SelectWhiteCol, GameState, Content),
 
     %need a repeat here in case of bad input
     write('\n\nChoose your move:\n\n'),
-    readCol(MoveCol),
-    readRow(MoveRow),
-    getMatrixAt(MoveRow, MoveCol, GameState, MoveContent),
+    readCol(MoveWhiteCol),
+    readRow(MoveWhiteRow),
+    getMatrixAt(MoveWhiteRow, MoveWhiteCol, GameState, MoveContent),
     nl,
     %write(GameState),
     nl,
     %write('\nhello\n'),
-    replaceEmpty(GameState, SelectRow, SelectCol, [empty, 0], NewGameState),
-    replaceCell(NewGameState, MoveRow, MoveCol, Content, MoveDoneGameState),
+    replaceEmpty(GameState, SelectWhiteRow, SelectWhiteCol, [empty, 0], NewGameState),
+    replaceCell(NewGameState, MoveWhiteRow, MoveWhiteCol, Content, MoveDoneGameState),
     nl.
     %write(MoveDoneGameState),
     %nl,

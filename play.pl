@@ -12,12 +12,12 @@ display_game(GameState):-
 
 gameLoop(GameState):-
     %white
-    movePiece(GameState, SelectCol, SelectRow, Content, AfterWhiteMove, 'white'),
+    movePiece(GameState, SelectColW, SelectRowW, ContentW, AfterWhiteMove, 'white'),
     printBoard(AfterWhiteMove),
     %check if game is over
 
     %black
-    movePiece(AfterWhiteMove, SelectCol, SelectRow, Content, AfterBlackMove, 'black'),
+    movePiece(AfterWhiteMove, SelectColB, SelectRowB, ContentB, AfterBlackMove, 'black'),
     printBoard(AfterBlackMove),
     %check if game is over
     gameLoop(AfterBlackMove).
