@@ -1,7 +1,7 @@
 play:-
     initial(GameState),
     display_game(GameState),
-    gameLoop(Player1, Player2, GameState).
+    gameLoop(GameState).
 
 initial(GameState):-
     initialBoard(GameState).
@@ -9,23 +9,32 @@ initial(GameState):-
 display_game(GameState):-
     printBoard(GameState).
 
-repeat.
-repeat:-
-    repeat.
 
-gameLoop(Player1, Player2, GameState):-
-    initial(GameState),
-    assert(state(Player1, GameState)),
-    repeat,
-        %write('\naqui1\n'),
-        retract(state(Player1, GameState)),
-        write('\naqui2\n'),
-        once(movePiece(GameState, SelectCol, SelectRow, Content, Player1, MoveDoneGameState, Player2)),
-        assert(state(Player2, MoveDoneGameState)),
-        write('\naqui3\n'),
-        once(printBoard(MoveDoneGameState)),
-        write('\naqui4\n'),
-        fail.
+gameLoop(GameState):-
+    %white
+    movePiece(GameState, SelectColW, SelectRowW, ContentW, AfterWhiteMove, white),
+    nl,
+    printBoard(AfterWhiteMove),
+    IterationCounter is 0,
+    NewIterationCounter is 0,
+    iterateBoard(AfterWhiteMove, white, Points, NewPoints, IterationCounter, NewIterationCounter),
+    IterationCounter is 0,
+    NewIterationCounter is 0,
+    iterateBoard(AfterWhiteMove, black, Points, NewPoints, IterationCounter, NewIterationCounter),
+    %check if game is over
+
+    %black
+    movePiece(AfterWhiteMove, SelectColB, SelectRowB, ContentB, AfterBlackMove, black),
+    printBoard(AfterBlackMove),
+    IterationCounter is 0,
+    NewIterationCounter is 0,
+    iterateBoard(AfterBlackMove, white, Points, NewPoints, IterationCounter, NewIterationCounter),
+    IterationCounter is 0,
+    NewIterationCounter is 0,
+    iterateBoard(AfterBlackMove, black, Points, NewPoints, IterationCounter, NewIterationCounter),
+    %check if game is over
+    gameLoop(AfterBlackMove).
+    
 
 endGame:-
     write('Black wins !!!\n Game Over.\n'). 

@@ -1,6 +1,7 @@
 
-checkPlayer(L, 'B'):- nth0(0, L, black).
-checkPlayer(L, 'W'):- nth0(0, L, white).
+checkPlayer(L, black):- nth0(0, L, black).
+checkPlayer(L, white):- nth0(0, L, white).
+checkPlayer(L, _):- fail.
 
 checkPiece(Content):- Content \= [empty,0].
 
@@ -15,50 +16,23 @@ getCell(SelectCol, SelectRow, Content, GameState):-
 
 getMatrixAt(0, Column, [HeaderLines|_], Number):-
 	getLineAt(Column, HeaderLines, Number).
-  /*write([HeaderLines|_]),
-  nl,
-  write(Number),
-  nl.*/
+
 
 getMatrixAt(Line, Column, [_|TailLines], Number):-
-  write('\n1\n'),
+  %write('\n1\n'),
 	Line > 0,
 	NewLine is Line-1,
 	getMatrixAt(NewLine, Column, TailLines, Number).
-  /*write([_|TailLines]),
-  nl,
-  write(Number),
-  nl.*/
+  
 
 getLineAt(0, [HeaderNumbers|_], HeaderNumbers).
 
 getLineAt(Index, [_|TailNumbers], Number):-
-  write('\n2\n'),
+  %write('\n2\n'),
 	Index > 0,
 	NewIndex is Index-1,
 	getLineAt(NewIndex, TailNumbers, Number).
-  /*write([_|TailNumbers]),
-  nl,
-  write(Number),
-  nl.*/
-
-
-/*
-setMatrixNumberAt(1, Column, NewNumber, [HeaderLines|TailLines], [NewHeaderLines|TailLines]):-
-	setListNumberAt(Column, NewNumber, HeaderLines, NewHeaderLines).
-
-setMatrixNumberAt(Line, Column, NewNumber, [HeaderLines|TailLines], [HeaderLines|NewTailLines]):-
-	Line > 0,
-	NewLine is Line-1,
-	setMatrixNumberAt(NewLine, Column, NewNumber, TailLines, NewTailLines).
-
-setListNumberAt(1, NewNumber, [_|TailNumbers], [NewNumber|TailNumbers]).
-
-setListNumberAt(Index, NewNumber, [HeaderNumbers|TailNumbers], [HeaderNumbers|NewTailNumbers]):-
-	Index > 0,
-	NewIndex is Index-1,
-	setListNumberAt(NewIndex, NewNumber, TailNumbers, NewTailNumbers).
-*/
+  
 
 
 replaceCell([L|Ls] , 0 , Y , Z , [R|Ls]) :- 
@@ -90,6 +64,65 @@ replace_columnempty([C|Cs] , Y , Z , [C|Rs]) :-
   Y > 0 ,                                  
   Y1 is Y-1 ,                              
   replace_columnempty( Cs , Y1 , Z , Rs ).      
+
+
+countGreen([], _, Counter, NewCounter):-
+    NewCounter = Counter.
+
+countGreen([H|T], H, OldCounter, NewCounter):-
+    NewCounter2 is OldCounter+1,
+    countGreen(T, H, NewCounter2, NewCounter).
+
+countGreen([_|T], H2, Counter, NewCounter):-
+    countGreen(T, H2, Counter, NewCounter).
+
+
+iterateBoard([], Player, Points, NewPoints, PreviousIterationCounter, NewPreviousIterCounter):-
+  nl,
+  write(Player),
+  write(' points = '),
+  write(NewPreviousIterCounter), nl.
+iterateBoard([H|T], Player, Points, NewPoints, PreviousIterationCounter, NewPreviousIterCounter):-
+  lineFound(H, Player, Points, NewPoints, PreviousIterationCounter, FinalCounter),
+  %nl,write(FinalCounter),nl,
+  AuxNewPreviousIterCounter is FinalCounter + NewPreviousIterCounter,
+  %nl,write(AuxNewPreviousIterCounter),nl,
+  iterateBoard(T, Player, 0, AuxPoints, PreviousIterationCounter, AuxNewPreviousIterCounter).
+
+
+lineFound([], _, Points, NewPoints, NewPreviousIterCounter, FinalCounter):- 
+  FinalCounter = NewPreviousIterCounter.
+
+lineFound([H|T], Player, Points, NewPoints, PreviousIterationCounter, FinalCounter):-
+  countAllPoints(H, Player, Points, NewPoints),
+  NewPreviousIterCounter is PreviousIterationCounter + NewPoints,
+  lineFound(T, Player, 0, AuxCounter, NewPreviousIterCounter, FinalCounter).
+
+
+countAllPoints([H|T], Player, Counter, NewCounter):-
+  (
+    checkPlayer([H|T], Player) -> countGreen([H|T], green, Counter, NewCounter);
+    NewCounter is 0
+  ).
+
+
+validatePiece(GameState, Player, SelectCol, SelectRow):-
+  getMatrixAt(SelectRow, SelectCol, GameState, Content),
+  (
+    checkPlayer(Content, Player);
+    (
+      nl, write('Must choose a '), write(Player), write(' piece!\n'),
+      movePiece(GameState, NewSelectCol, NewSelectRow, NewContent, MoveDoneGameState, Player)
+    )
+  ).
+
+
+validateMove(GameState, Player, SelectCol, SelectRow, MoveCol, MoveRow):-
+  validatePiece(GameState, Player, SelectCol, SelectRow).
+  
+checkPossibleMove(GameState, Player, SelectCol, SelectRow, MoveCol, MoveRow):-
+  getMatrixAt(MoveRow, MoveCol, GameState, Content),
+  checkPiece(Content).
 
 
 

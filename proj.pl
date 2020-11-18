@@ -1,3 +1,4 @@
+:- use_module(library(lists)).
 :-consult('play.pl').
 :-consult('display.pl').
 :-consult('input.pl').

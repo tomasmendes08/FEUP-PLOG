@@ -78,6 +78,11 @@ symbol(9, S):- S='9'.
 symbol(10, S):- S='10'.
 symbol(11, S):- S='11'.
 symbol(12, S):- S='12'.
+symbol(10, S):- S='13'.
+symbol(11, S):- S='14'.
+symbol(12, S):- S='15'.
+symbol(10, S):- S='16'.
+
 
 
 printBoard(B):-
@@ -109,17 +114,8 @@ printCell([H|T]):-
     symbol(H,S),
     write(S),
     Counter is 0,
-    countGreen([H|T], 'green', Counter),
-    symbol(Counter, S2),
+    countGreen([H|T], green, Counter, NewCounter),
+    symbol(NewCounter, S2),
     write(S2).
-
-countGreen([], _, Counter).
-countGreen([H|T], H, Counter):-
-    %write('\n123\n'),
-    NewCounter is Counter+1,
-    countGreen(T, H, NewCounter).
-countGreen([_|T], H2, Counter):-
-    %write('\n1\n'),
-    countGreen(T, H2, Counter).
 
 
