@@ -12,7 +12,7 @@ display_game(GameState):-
 
 gameLoop(GameState):-
     %white
-    movePiece(GameState, SelectColW, SelectRowW, ContentW, AfterWhiteMove, white),
+    choosePiece(GameState, SelectColW, SelectRowW, AfterWhiteMove, white),
     nl,
     printBoard(AfterWhiteMove),
     IterationCounter is 0,
@@ -20,11 +20,11 @@ gameLoop(GameState):-
     iterateBoard(AfterWhiteMove, white, Points, NewPoints, IterationCounter, NewIterationCounter),
     IterationCounter is 0,
     NewIterationCounter is 0,
-    iterateBoard(AfterWhiteMove, black, Points, NewPoints, IterationCounter, NewIterationCounter),
+    iterateBoard(AfterWhiteMove, black, Points, NewPoints, IterationCounter, NewIterationCounter), %count players points 
     %check if game is over
 
     %black
-    movePiece(AfterWhiteMove, SelectColB, SelectRowB, ContentB, AfterBlackMove, black),
+    choosePiece(AfterWhiteMove, SelectColB, SelectRowB, AfterBlackMove, black),
     printBoard(AfterBlackMove),
     IterationCounter is 0,
     NewIterationCounter is 0,

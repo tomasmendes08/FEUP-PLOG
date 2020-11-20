@@ -1,103 +1,101 @@
-movePiece(GameState, SelectWhiteCol, SelectWhiteRow, Content, MoveDoneGameState, white):-
+choosePiece(GameState, SelectWhiteCol, SelectWhiteRow, MoveDoneGameState, white):-
     %need a repeat here in case of bad input
-    write('\nChoose White Piece:\n\n'),
-    readCol(SelectWhiteCol),
-    readRow(SelectWhiteRow),
-    getMatrixAt(SelectWhiteRow, SelectWhiteCol, GameState, Content),
+    repeat,
+        write('\nChoose White Piece:\n\n'),
+        readFirstInput(SelectWhiteCol, SelectWhiteRow, ConfirmedWhiteCol, ConfirmedWhiteRow, white, GameState),
+        movePiece(GameState, ConfirmedWhiteCol, ConfirmedWhiteRow, MoveDoneGameState, white).
+
+movePiece(GameState, ConfirmedWhiteCol, ConfirmedWhiteRow, MoveDoneGameState, white):-
+    getMatrixAt(ConfirmedWhiteRow, ConfirmedWhiteCol, GameState, Content),
+    %nl,write(ConfirmedWhiteCol), write(ConfirmedWhiteRow),
+    nl,write(Content),nl,
     %need a repeat here in case of bad input
     write('\n\nChoose your move:\n\n'),
-    readCol(MoveWhiteCol),
-    readRow(MoveWhiteRow),
-    getMatrixAt(MoveWhiteRow, MoveWhiteCol, GameState, MoveContent),
+    readCol(MoveWhiteCol, ConfirmedMoveCol),
+    readRow(MoveWhiteRow, ConfirmedMoveRow),
+    nl,write(ConfirmedMoveCol),write(ConfirmedMoveRow),
+    %getMatrixAt(MoveWhiteRow, MoveWhiteCol, GameState, MoveContent),
     nl,
-    %write(GameState),
+    checkMoves(GameState, white, ConfirmedWhiteCol, ConfirmedWhiteRow, ConfirmedMoveCol, ConfirmedMoveRow),
+    getMatrixAt(ConfirmedMoveRow, ConfirmedMoveCol, GameState, AuxContent),
+    nl,write(AuxContent),nl,
+    %write('\nhello\n'),
+    replaceEmpty(GameState, ConfirmedWhiteRow, ConfirmedWhiteCol, [empty, 0], NewGameState),
+    replaceCell(NewGameState, ConfirmedMoveRow, ConfirmedMoveCol, Content, MoveDoneGameState),
+    nl.
+    %write(MoveDoneGameState),
+    %nl,
+    %getMatrixAt(MoveRow, MoveCol, MoveDoneGameState, AfterMoveContent).
+
+    
+choosePiece(GameState, SelectBlackCol, SelectBlackRow, MoveDoneGameState, black):-
+    %need a repeat here in case of bad input
+    repeat,
+        write('\nChoose Black Piece:\n\n'),
+        readFirstInput(SelectBlackCol, SelectBlackRow, ConfirmedBlackCol, ConfirmedBlackRow, black, GameState),
+        movePiece(GameState, ConfirmedBlackCol, ConfirmedBlackRow, MoveDoneGameState, black).
+
+movePiece(GameState, ConfirmedBlackCol, ConfirmedBlackRow, MoveDoneGameState, black):-
+    getMatrixAt(ConfirmedBlackRow, ConfirmedBlackCol, GameState, Content),
+    nl,write(Content),nl,
+    write('\n\nChoose your move:\n\n'),
+    readCol(MoveBlackCol, ConfirmedMoveCol),
+    readRow(MoveBlackRow, ConfirmedMoveRow),
+    getMatrixAt(ConfirmedMoveRow, ConfirmedMoveCol, GameState, MoveContent),
+    write(MoveContent),
     nl,
     %write('\nhello\n'),
-    replaceEmpty(GameState, SelectWhiteRow, SelectWhiteCol, [empty, 0], NewGameState),
-    replaceCell(NewGameState, MoveWhiteRow, MoveWhiteCol, Content, MoveDoneGameState),
+    replaceEmpty(GameState, ConfirmedBlackRow, ConfirmedBlackCol, [empty, 0], NewGameState),
+    replaceCell(NewGameState, ConfirmedMoveRow, ConfirmedMoveCol, Content, MoveDoneGameState),
     nl.
     %write(MoveDoneGameState),
     %nl,
     %getMatrixAt(MoveRow, MoveCol, MoveDoneGameState, AfterMoveContent).
 
 
-movePiece(GameState, SelectCol, SelectRow, Content, MoveDoneGameState, black):-
-    write('\nChoose Black Piece:\n\n'),
-    readCol(SelectCol),
-    readRow(SelectRow),
-    getMatrixAt(SelectRow, SelectCol, GameState, Content),
 
-    write('\n\nChoose your move:\n\n'),
-    readCol(MoveCol),
-    readRow(MoveRow),
-    getMatrixAt(MoveRow, MoveCol, GameState, MoveContent),
-
-    nl,
-    %write(GameState),
-    nl,
-    %write('\nhello\n'),
-    replaceEmpty(GameState, SelectRow, SelectCol, [empty, 0], NewGameState),
-    replaceCell(NewGameState, MoveRow, MoveCol, Content, MoveDoneGameState),
-    nl.
-    %write(MoveDoneGameState),
-    %nl,
-    %getMatrixAt(MoveRow, MoveCol, MoveDoneGameState, AfterMoveContent).
-
-swapPlayers(1, 2).
-swapPlayers(2, 1).
-
-readCol(SelectCol):-
-    write('Column: '),
-    read(Col),
-    checkCol(Col, SelectCol).
-
-readRow(SelectRow):-
-    write('Row: '),
-    read(Row),
-    checkRow(Row, SelectRow).
-
-checkCol(0, SelectCol):- SelectCol=0.
-checkCol(1, SelectCol):- SelectCol=1.
-checkCol(2, SelectCol):- SelectCol=2.
-checkCol(3, SelectCol):- SelectCol=3.
-checkCol(4, SelectCol):- SelectCol=4.
-checkCol(5, SelectCol):- SelectCol=5.
-checkCol(_Col, SelectCol):-
-    write('Invalid column\n'),
-    write('Select another column:\n'),
-    readCol(SelectCol).
-
-checkRow(0, SelectRow):- SelectRow = 0.
-checkRow(1, SelectRow):- SelectRow = 1.
-checkRow(2, SelectRow):- SelectRow = 2.
-checkRow(3, SelectRow):- SelectRow = 3.
-checkRow(4, SelectRow):- SelectRow = 4.
-checkRow(5, SelectRow):- SelectRow = 5.
-checkRow(_Row, SelectRow):-
-    write('Invalid row\n'),
-    write('Select another row:\n'),
-    readRow(SelectRow).
-/*
-checkColMove(SelectCol, MoveCol, MovedCol, FinalCol):-
-    MoveCol=:=SelectCol+1, MovedCol = 1, FinalCol is MoveCol;
-    MoveCol=:=SelectCol-1, MovedCol = 1, FinalCol is MoveCol;
-    MoveCol=:=SelectCol, MovedCol = 0, FinalCol is MoveCol;
+readFirstInput(Col, Row, ConfirmedCol, ConfirmedRow, Player, GameState):-
+    readCol(C1, Col),
+    readRow(R1, Row),
     (
-        write('\nInvalid column move.\n'),
-        write('Select another column move: '),
-        readCol(NewCol),
-        checkCol(NewCol, NewMoveCol),
-        checkColMove(SelectCol, NewMoveCol, MovedCol, FinalCol)
+        validatePiece(GameState, Player, Row, Col) ->
+        (ConfirmedCol is Col, ConfirmedRow is Row, write(ConfirmedCol), write(ConfirmedRow),nl);
+        (
+            nl, write('Must choose a '), write(Player), write(' piece!\n'),
+            !,fail
+        )
     ).
 
-checkRowMove(SelectRow, MoveRow, MovedRow, FinalRow):-
-    MoveRow=:=SelectRow+1, MovedRow = 1, FinalRow is MoveRow;
-    MoveRow=:=SelectRow-1, MovedRow = 1, FinalRow is MoveRow;
-    MoveRow=:=SelectRow, MovedRow = 0, FinalRow is MoveRow;
-    (
-        write('\nInvalid row move.\n'),
-        write('Select another row move: '),
-        readCol(NewRow),
-        checkCol(NewRow, NewMoveRow),
-        checkColMove(SelectRow, NewMoveRow, MovedRow, FinalRow)
-    ).*/
+
+readCol(SelectCol, ConfirmedCol):-
+    write('Column: '),
+    read(SelectCol),
+    checkCol(SelectCol, ConfirmedCol).
+
+readRow(SelectRow, ConfirmedRow):-
+    write('Row: '),
+    read(SelectRow),
+    checkRow(SelectRow, ConfirmedRow).
+
+checkCol(0, ConfirmedCol):- ConfirmedCol=0.
+checkCol(1, ConfirmedCol):- ConfirmedCol=1.
+checkCol(2, ConfirmedCol):- ConfirmedCol=2.
+checkCol(3, ConfirmedCol):- ConfirmedCol=3.
+checkCol(4, ConfirmedCol):- ConfirmedCol=4.
+checkCol(5, ConfirmedCol):- ConfirmedCol=5.
+checkCol(_Col, ConfirmedCol):-
+    write('Invalid column\n'),
+    write('Select another column:\n'),
+    readCol(Col, ConfirmedCol).
+
+checkRow(0, ConfirmedRow):- ConfirmedRow = 0.
+checkRow(1, ConfirmedRow):- ConfirmedRow = 1.
+checkRow(2, ConfirmedRow):- ConfirmedRow = 2.
+checkRow(3, ConfirmedRow):- ConfirmedRow = 3.
+checkRow(4, ConfirmedRow):- ConfirmedRow = 4.
+checkRow(5, ConfirmedRow):- ConfirmedRow = 5.
+checkRow(_Row, ConfirmedRow):-
+    write('Invalid row\n'),
+    write('Select another row:\n'),
+    readRow(Row, ConfirmedRow).
+

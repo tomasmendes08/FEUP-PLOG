@@ -106,23 +106,31 @@ countAllPoints([H|T], Player, Counter, NewCounter):-
   ).
 
 
-validatePiece(GameState, Player, SelectCol, SelectRow):-
-  getMatrixAt(SelectRow, SelectCol, GameState, Content),
+validatePiece(GameState, Player, Row, Col):-
+  getMatrixAt(Row, Col, GameState, Content),
+  %nl,write(Content),nl,
+  checkPlayer(Content, Player).
+
+
+checkMoves(GameState, Player, SelectCol, SelectRow, MoveCol, MoveRow):-
+  getMatrixAt(MoveRow, MoveCol, GameState, MoveContent),
+  nl,write(MoveContent),nl,
   (
-    checkPlayer(Content, Player);
-    (
-      nl, write('Must choose a '), write(Player), write(' piece!\n'),
-      movePiece(GameState, NewSelectCol, NewSelectRow, NewContent, MoveDoneGameState, Player)
-    )
+    checkPiece(MoveContent) ->
+    (SelectCol =:= MoveCol, SelectRow < MoveRow, AuxRow is MoveRow - SelectRow, AuxRow < 6, write('\n123\n'), checkColumnPieces(GameState, Player, MoveCol, MoveRow, AuxRow));
+    write('\nInvalid move! Try again.\n'), !, printBoard(GameState), choosePiece(GameState, NewSelectCol, NewSelectRow, MoveDoneGameState, Player)
   ).
-
-
-validateMove(GameState, Player, SelectCol, SelectRow, MoveCol, MoveRow):-
-  validatePiece(GameState, Player, SelectCol, SelectRow).
   
-checkPossibleMove(GameState, Player, SelectCol, SelectRow, MoveCol, MoveRow):-
-  getMatrixAt(MoveRow, MoveCol, GameState, Content),
-  checkPiece(Content).
+
+checkColumnPieces(GameState, Player, MoveCol, MoveRow, 1).
+
+checkColumnPieces(GameState, Player, MoveCol, MoveRow, AuxRow):-
+  Aux is MoveRow - 1,
+  getMatrixAt(Aux, MoveCol, GameState, Content),
+  (
+    checkPiece(Content) -> write('\nInvalid move! Try again.\n'), !, printBoard(GameState), choosePiece(GameState, NewSelectCol, NewSelectRow, MoveDoneGameState, Player); 
+    Aux2 is AuxRow - 1, write('\ncheguei\n'), checkColumnPieces(GameState, Player, MoveCol, Aux, Aux2)
+  ).  
 
 
 
