@@ -4,9 +4,9 @@ choosePiece(GameState, SelectBlackCol, SelectBlackRow, MoveDoneGameState, Player
         format('\nChoose a ~w Piece!\n\n', Player),
         readFirstInput(SelectBlackCol, SelectBlackRow, ConfirmedBlackCol, ConfirmedBlackRow, Player, GameState),
         validateSecondInput(ConfirmedBlackCol, ConfirmedBlackRow, MoveCol, MoveRow, ConfirmedMoveCol, ConfirmedMoveRow, Player, GameState),
-        movePiece(GameState, ConfirmedBlackCol, ConfirmedBlackRow, ConfirmedMoveCol, ConfirmedMoveRow, MoveDoneGameState, Player).
+        movePiece(GameState, ConfirmedBlackCol, ConfirmedBlackRow, ConfirmedMoveCol, ConfirmedMoveRow, MoveDoneGameState).
 
-movePiece(GameState, ConfirmedBlackCol, ConfirmedBlackRow, ConfirmedMoveCol, ConfirmedMoveRow, MoveDoneGameState, Player):-
+movePiece(GameState, ConfirmedBlackCol, ConfirmedBlackRow, ConfirmedMoveCol, ConfirmedMoveRow, MoveDoneGameState):-
     getMatrixAt(ConfirmedBlackRow, ConfirmedBlackCol, GameState, Content),
     nl,
     getMatrixAt(ConfirmedMoveRow, ConfirmedMoveCol, GameState, MoveContent),
