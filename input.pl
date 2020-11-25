@@ -1,3 +1,6 @@
+
+%WHITE
+
 choosePiece(GameState, SelectWhiteCol, SelectWhiteRow, MoveDoneGameState, white):-
     %need a repeat here in case of bad input
     repeat,
@@ -16,6 +19,9 @@ movePiece(GameState, ConfirmedWhiteCol, ConfirmedWhiteRow, ConfirmedMoveCol, Con
     replaceCell(NewGameState, ConfirmedMoveRow, ConfirmedMoveCol, Content, MoveDoneGameState),
     nl.
 
+
+
+%BLACK
     
 choosePiece(GameState, SelectBlackCol, SelectBlackRow, MoveDoneGameState, black):-
     %need a repeat here in case of bad input
@@ -35,6 +41,9 @@ movePiece(GameState, ConfirmedBlackCol, ConfirmedBlackRow, ConfirmedMoveCol, Con
     nl.
 
 
+
+%FIRST INPUT
+
 readFirstInput(Col, Row, ConfirmedCol, ConfirmedRow, Player, GameState):-
     once(readCol(C1, Col)),
     once(readRow(R1, Row)),
@@ -48,15 +57,23 @@ readFirstInput(Col, Row, ConfirmedCol, ConfirmedRow, Player, GameState):-
     ).
 
 
+
+%SECOND INPUT
+
+
 validateSecondInput(SelectCol, SelectRow, Col, Row, ConfirmedMoveCol, ConfirmedMoveRow, Player, GameState):-
     write('\nChoose your move:\n'),
     readCol(C1, Col),
     readRow(R1, Row),
     (
         checkMoves(GameState, Player, SelectCol, SelectRow, Col, Row, ConfirmedMoveCol, ConfirmedMoveRow) -> 
-        (ConfirmedMoveCol is Col, ConfirmedMoveRow is Row, nl, write(ConfirmedMoveCol), write(ConfirmedMoveRow));
+        (ConfirmedMoveCol is Col, ConfirmedMoveRow is Row); %nl, write(ConfirmedMoveCol), write(ConfirmedMoveRow));
         write('\nInvalid move! Try again.\n'), !, fail
     ).
+
+
+
+%READ COLUMN AND ROW
 
 
 readCol(SelectCol, ConfirmedCol):-

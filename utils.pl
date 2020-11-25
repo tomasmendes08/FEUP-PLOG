@@ -3,6 +3,7 @@ checkPlayer(L, black):- nth0(0, L, black).
 checkPlayer(L, white):- nth0(0, L, white).
 checkPlayer(L, _):- fail.
 
+
 checkPiece(Content):- Content \= [empty,0].
 
 checkEmptyContent(Content):- Content == [empty,0].
@@ -59,6 +60,7 @@ replace_columnempty([C|Cs] , Y , Z , [C|Rs]) :-
 
 
 countGreen([], _, Counter, NewCounter):-
+    %write(Counter),nl,
     NewCounter = Counter.
 
 countGreen([H|T], H, OldCounter, NewCounter):-
@@ -93,7 +95,7 @@ lineFound([H|T], Player, Points, NewPoints, PreviousIterationCounter, FinalCount
 
 countAllPoints([H|T], Player, Counter, NewCounter):-
   (
-    checkPlayer([H|T], Player) -> countGreen([H|T], green, Counter, NewCounter);
+    checkPlayer([H|T], Player) -> countGreen([H|T], green, Counter, NewCounter); %nl,write(NewCounter),nl;
     NewCounter is 0
   ).
 
@@ -103,14 +105,22 @@ validateFirstPiece(GameState, Player, Row, Col):-
   checkPlayer(Content, Player).
 
 
+
+%CHECK IF MOVE IS POSSIBLE
+
+
 checkMoves(GameState, Player, SelectCol, SelectRow, MoveCol, MoveRow, ConfirmedCol, ConfirmedRow):-
   getMatrixAt(MoveRow, MoveCol, GameState, MoveContent),
+  %write(MoveContent),nl,
   checkPiece(MoveContent),
   SelectCol =:= MoveCol,
   (
     SelectRow < MoveRow -> AuxRow is MoveRow - SelectRow, AuxRow < 6, checkDownPieces(GameState, Player, MoveCol, MoveRow, AuxRow);
     AuxRow is SelectRow - MoveRow, AuxRow < 6, checkUpPieces(GameState, Player, MoveCol, MoveRow, AuxRow)
   );
+  getMatrixAt(MoveRow, MoveCol, GameState, MoveContent),
+  %write(MoveContent),nl,
+  checkPiece(MoveContent),
   SelectRow =:= MoveRow,
   (
     SelectCol < MoveCol -> AuxCol is MoveCol - SelectCol, AuxCol < 6, checkRightPieces(GameState, Player, MoveCol, MoveRow, AuxCol);
@@ -123,7 +133,7 @@ checkLeftPieces(GameState, Player, MoveCol, MoveRow, 1).
 checkLeftPieces(GameState, Player, MoveCol, MoveRow, AuxCol):-
   Aux is MoveCol + 1,
   getMatrixAt(MoveRow, Aux, GameState, Content),
-  write(Content),nl,
+  %write(Content),nl,
   checkEmptyContent(Content),  %se na casa da direita estiver uma peça, falha
   Aux2 is AuxCol - 1, 
   checkLeftPieces(GameState, Player, Aux, MoveRow, Aux2).
@@ -134,7 +144,7 @@ checkRightPieces(GameState, Player, MoveCol, MoveRow, 1).
 checkRightPieces(GameState, Player, MoveCol, MoveRow, AuxCol):-
   Aux is MoveCol - 1,
   getMatrixAt(MoveRow, Aux, GameState, Content),
-  write(Content),nl,
+  %write(Content),nl,
   checkEmptyContent(Content),  %se na casa da esquerda estiver uma peça, falha
   Aux2 is AuxCol - 1, 
   checkRightPieces(GameState, Player, Aux, MoveRow, Aux2).
@@ -145,7 +155,7 @@ checkUpPieces(GameState, Player, MoveCol, MoveRow, 1).
 checkUpPieces(GameState, Player, MoveCol, MoveRow, AuxRow):-
   Aux is MoveRow + 1,
   getMatrixAt(Aux, MoveCol, GameState, Content),
-  write(Content),nl,
+  %write(Content),nl,
   checkEmptyContent(Content),  %se na casa abaixo estiver uma peça, falha
   Aux2 is AuxRow - 1, 
   checkUpPieces(GameState, Player, MoveCol, Aux, Aux2).
@@ -156,13 +166,173 @@ checkDownPieces(GameState, Player, MoveCol, MoveRow, 1).
 checkDownPieces(GameState, Player, MoveCol, MoveRow, AuxRow):-
   Aux is MoveRow - 1,
   getMatrixAt(Aux, MoveCol, GameState, Content),
-  write(Content),nl,
+  %write(Content),nl,
   checkEmptyContent(Content),  %se na casa acima estiver uma peça, falha
   Aux2 is AuxRow - 1, 
   checkDownPieces(GameState, Player, MoveCol, Aux, Aux2).
 
 
 
+% CHECK IF THERE'S ANY MOVE LEFT TO MAKE
 
 
+checkMovesLeft(GameState, Player):- fail.
+
+
+% RIGHT SIDE
+
+contentRightFound(Col, Row, Player, GameState):-
+  Row < 6,
+  Col < 5,
+  getMatrixAt(Row, Col, GameState, CellContent),
+  write(CellContent),nl,
+  checkPlayer(CellContent, Player),
+  AuxCol is Col + 1,
+  contentRightFoundAux(AuxCol, Row, Player, GameState).
+
+contentRightFound(Col, Row, Player, GameState):-
+  Row < 6,
+  Col < 5,
+  AuxCol2 is Col + 1,
+  write(Col),nl,
+  contentRightFound(AuxCol2, Row, Player, GameState).
+
+contentRightFound(Col, Row, Player, GameState):-
+  Row < 6,
+  Col >= 5,
+  AuxRow is Row + 1,
+  write(Col),nl,
+  contentRightFound(0, AuxRow, Player, GameState).
+
+
+contentRightFoundAux(Col, Row, Player, GameState):-
+  Col < 6,
+  getMatrixAt(Row, Col, GameState, ContentRight),
+  write(ContentRight),nl,
+  checkPiece(ContentRight).
+
+contentRightFoundAux(Col, Row, Player, GameState):-
+  Col < 6,
+  AuxCol is Col + 1,
+  contentRightFoundAux(AuxCol, Row, Player, GameState).
+
+  
+% LEFT SIDE
+
+contentLeftFound(Col, Row, Player, GameState):-
+  Row < 6,
+  Col < 5,
+  getMatrixAt(Row, Col, GameState, CellContent),
+  %write(CellContent),nl,
+  checkPlayer(CellContent, Player),
+  AuxCol is Col - 1,
+  contentLeftFoundAux(AuxCol, Row, Player, GameState).
+
+contentLeftFound(Col, Row, Player, GameState):-
+  Row < 6,
+  Col < 5,
+  AuxCol2 is Col + 1,
+  %write(Col),nl,
+  contentLeftFound(AuxCol2, Row, Player, GameState).
+
+contentLeftFound(Col, Row, Player, GameState):-
+  Row < 6,
+  Col >= 5,
+  AuxRow is Row + 1,
+  %write(Col),nl,
+  contentLeftFound(0, AuxRow, Player, GameState).
+
+
+contentLeftFoundAux(Col, Row, Player, GameState):-
+  Row < 6,
+  Col > -1,
+  getMatrixAt(Row, Col, GameState, ContentLeft),
+  %write(ContentLeft),nl,
+  checkPiece(ContentLeft).
+
+contentLeftFoundAux(Col, Row, Player, GameState):-
+  Row < 6,
+  Col > -1,
+  AuxCol is Col - 1,
+  contentLeftFoundAux(AuxCol, Row, Player, GameState).
+
+
+
+% DOWN SIDE
+
+
+contentDownFound(Col, Row, Player, GameState):-
+  Row < 5,
+  Col < 6,
+  getMatrixAt(Row, Col, GameState, CellContent),
+  write(CellContent),nl,
+  checkPlayer(CellContent, Player),
+  AuxRow is Row + 1,
+  contentDownFoundAux(Col, AuxRow, Player, GameState).
+
+contentDownFound(Col, Row, Player, GameState):-
+  Row < 5,
+  Col < 6,
+  AuxRow2 is Row + 1,
+  write(Row),nl,
+  contentDownFound(Col, AuxRow2, Player, GameState).
+
+contentDownFound(Col, Row, Player, GameState):-
+  Row >= 5,
+  Col < 6,
+  AuxCol is Col + 1,
+  write(Row),nl,
+  contentDownFound(AuxCol, 0, Player, GameState).
+
+
+contentDownFoundAux(Col, Row, Player, GameState):-
+  Row < 6,
+  getMatrixAt(Row, Col, GameState, ContentDown),
+  write(ContentDown),nl,
+  checkPiece(ContentDown).
+
+contentDownFoundAux(Col, Row, Player, GameState):-
+  Row < 6,
+  AuxRow is Row + 1,
+  contentDownFoundAux(Col, AuxRow, Player, GameState).
+
+
+
+% UP SIDE
+
+
+contentUpFound(Col, Row, Player, GameState):-
+  Row < 5,
+  Col < 6,
+  getMatrixAt(Row, Col, GameState, CellContent),
+  write(CellContent),nl,
+  checkPlayer(CellContent, Player),
+  AuxRow is Row - 1,
+  contentUpFoundAux(Col, AuxRow, Player, GameState).
+
+contentUpFound(Col, Row, Player, GameState):-
+  Row < 5,
+  Col < 6,
+  AuxRow2 is Row + 1,
+  write(Row),nl,
+  contentUpFound(Col, AuxRow2, Player, GameState).
+
+contentUpFound(Col, Row, Player, GameState):-
+  Row >= 5,
+  Col < 6,
+  AuxCol is Col + 1,
+  write(Row),nl,
+  contentUpFound(AuxCol, 0, Player, GameState).
+
+
+contentUpFoundAux(Col, Row, Player, GameState):-
+  Row > -1,
+  getMatrixAt(Row, Col, GameState, ContentUp),
+  write(ContentUp),nl,
+  checkPiece(ContentUp).
+
+contentUpFoundAux(Col, Row, Player, GameState):-
+  Row > -1,
+  AuxRow is Row - 1,
+  contentUpFoundAux(Col, AuxRow, Player, GameState).
 

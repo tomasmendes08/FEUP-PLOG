@@ -4,7 +4,8 @@ play:-
     gameLoop(GameState).
 
 initial(GameState):-
-    initialBoard(GameState).
+    endgameBoard(GameState).
+    %initialBoard(GameState).
 
 display_game(GameState):-
     printBoard(GameState).
@@ -12,6 +13,14 @@ display_game(GameState):-
 
 gameLoop(GameState):-
     %white
+    /*Row is 0,    
+    checkIfExistsMoves(GameState, white, Row),
+    */
+    write('\naqui\n'),
+    Col is 0, 
+    Row is 0,!,
+    contentLeftFound(Col, Row, white, GameState),
+    write('\naqui2\n'), 
     choosePiece(GameState, SelectColW, SelectRowW, AfterWhiteMove, white),
     nl,
     printBoard(AfterWhiteMove),
