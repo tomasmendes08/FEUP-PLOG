@@ -1,7 +1,7 @@
 
 checkPlayer(L, black):- nth0(0, L, black).
 checkPlayer(L, white):- nth0(0, L, white).
-checkPlayer(L, _):- fail.
+checkPlayer(_L, _):- fail.
 
 
 checkPiece(Content):- Content \= [empty,0].

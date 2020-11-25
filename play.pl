@@ -16,12 +16,7 @@ gameLoop(GameState):-
     /*Row is 0,    
     checkIfExistsMoves(GameState, white, Row),
     */
-    write('\naqui\n'),
-    Col is 0, 
-    Row is 0,!,
-    contentLeftFound(Col, Row, white, GameState),
-    write('\naqui2\n'), 
-    choosePiece(GameState, SelectColW, SelectRowW, AfterWhiteMove, white),
+    choosePiece(GameState, _SelectColW, _SelectRowW, AfterWhiteMove, white),
     nl,
     printBoard(AfterWhiteMove),
     IterationCounter is 0,
@@ -33,7 +28,7 @@ gameLoop(GameState):-
     %check if game is over
 
     %black
-    choosePiece(AfterWhiteMove, SelectColB, SelectRowB, AfterBlackMove, black),
+    choosePiece(AfterWhiteMove, _SelectColB, _SelectRowB, AfterBlackMove, black),
     printBoard(AfterBlackMove),
     IterationCounter is 0,
     NewIterationCounter is 0,
