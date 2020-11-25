@@ -1,37 +1,12 @@
-
-%WHITE
-
-choosePiece(GameState, SelectWhiteCol, SelectWhiteRow, MoveDoneGameState, white):-
+choosePiece(GameState, SelectBlackCol, SelectBlackRow, MoveDoneGameState, Player):-
     %need a repeat here in case of bad input
     repeat,
-        write('\nChoose White Piece:\n\n'),
-        readFirstInput(SelectWhiteCol, SelectWhiteRow, ConfirmedWhiteCol, ConfirmedWhiteRow, white, GameState),
-        validateSecondInput(ConfirmedWhiteCol, ConfirmedWhiteRow, MoveCol, MoveRow, ConfirmedMoveCol, ConfirmedMoveRow, white, GameState),
-        movePiece(GameState, ConfirmedWhiteCol, ConfirmedWhiteRow, ConfirmedMoveCol, ConfirmedMoveRow, MoveDoneGameState, white).
+        format('\nChoose a ~w Piece!\n\n', Player),
+        readFirstInput(SelectBlackCol, SelectBlackRow, ConfirmedBlackCol, ConfirmedBlackRow, Player, GameState),
+        validateSecondInput(ConfirmedBlackCol, ConfirmedBlackRow, MoveCol, MoveRow, ConfirmedMoveCol, ConfirmedMoveRow, Player, GameState),
+        movePiece(GameState, ConfirmedBlackCol, ConfirmedBlackRow, ConfirmedMoveCol, ConfirmedMoveRow, MoveDoneGameState, Player).
 
-movePiece(GameState, ConfirmedWhiteCol, ConfirmedWhiteRow, ConfirmedMoveCol, ConfirmedMoveRow, MoveDoneGameState, white):-
-    getMatrixAt(ConfirmedWhiteRow, ConfirmedWhiteCol, GameState, Content),
-    nl,
-    getMatrixAt(ConfirmedMoveRow, ConfirmedMoveCol, GameState, AuxContent),
-    %nl,write(AuxContent),nl,
-    %write('\nhello\n'),
-    replaceEmpty(GameState, ConfirmedWhiteRow, ConfirmedWhiteCol, [empty, 0], NewGameState),
-    replaceCell(NewGameState, ConfirmedMoveRow, ConfirmedMoveCol, Content, MoveDoneGameState),
-    nl.
-
-
-
-%BLACK
-    
-choosePiece(GameState, SelectBlackCol, SelectBlackRow, MoveDoneGameState, black):-
-    %need a repeat here in case of bad input
-    repeat,
-        write('\nChoose Black Piece:\n\n'),
-        readFirstInput(SelectBlackCol, SelectBlackRow, ConfirmedBlackCol, ConfirmedBlackRow, black, GameState),
-        validateSecondInput(ConfirmedBlackCol, ConfirmedBlackRow, MoveCol, MoveRow, ConfirmedMoveCol, ConfirmedMoveRow, black, GameState),
-        movePiece(GameState, ConfirmedBlackCol, ConfirmedBlackRow, ConfirmedMoveCol, ConfirmedMoveRow, MoveDoneGameState, black).
-
-movePiece(GameState, ConfirmedBlackCol, ConfirmedBlackRow, ConfirmedMoveCol, ConfirmedMoveRow, MoveDoneGameState, black):-
+movePiece(GameState, ConfirmedBlackCol, ConfirmedBlackRow, ConfirmedMoveCol, ConfirmedMoveRow, MoveDoneGameState, Player):-
     getMatrixAt(ConfirmedBlackRow, ConfirmedBlackCol, GameState, Content),
     nl,
     getMatrixAt(ConfirmedMoveRow, ConfirmedMoveCol, GameState, MoveContent),
@@ -40,9 +15,6 @@ movePiece(GameState, ConfirmedBlackCol, ConfirmedBlackRow, ConfirmedMoveCol, Con
     replaceCell(NewGameState, ConfirmedMoveRow, ConfirmedMoveCol, Content, MoveDoneGameState),
     nl.
 
-
-
-%FIRST INPUT
 
 readFirstInput(Col, Row, ConfirmedCol, ConfirmedRow, Player, GameState):-
     once(readCol(C1, Col)),
@@ -57,23 +29,15 @@ readFirstInput(Col, Row, ConfirmedCol, ConfirmedRow, Player, GameState):-
     ).
 
 
-
-%SECOND INPUT
-
-
 validateSecondInput(SelectCol, SelectRow, Col, Row, ConfirmedMoveCol, ConfirmedMoveRow, Player, GameState):-
     write('\nChoose your move:\n'),
     readCol(C1, Col),
     readRow(R1, Row),
     (
         checkMoves(GameState, Player, SelectCol, SelectRow, Col, Row, ConfirmedMoveCol, ConfirmedMoveRow) -> 
-        (ConfirmedMoveCol is Col, ConfirmedMoveRow is Row); %nl, write(ConfirmedMoveCol), write(ConfirmedMoveRow));
+        (ConfirmedMoveCol is Col, ConfirmedMoveRow is Row, nl, write(ConfirmedMoveCol), write(ConfirmedMoveRow));
         write('\nInvalid move! Try again.\n'), !, fail
     ).
-
-
-
-%READ COLUMN AND ROW
 
 
 readCol(SelectCol, ConfirmedCol):-
