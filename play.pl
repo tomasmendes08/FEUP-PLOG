@@ -16,7 +16,6 @@ gameLoop(GameState):-
     /*Row is 0,    
     checkIfExistsMoves(GameState, white, Row),
     */
-    Check = 0,
     Col is 0, 
     Row is 0,
     (
@@ -24,13 +23,15 @@ gameLoop(GameState):-
         contentAnyFound(Col, Row, white, GameState),
         choosePiece(GameState, _SelectColW, _SelectRowW, AfterWhiteMove, white),
         printBoard(AfterWhiteMove),
-        iteration(AfterWhiteMove, Points, NewPoints)
+        iteration(AfterWhiteMove, Points, NewPoints),
+        NextGameState = AfterWhiteMove
         )
         ;
         (
         Check1 is 1,
         printBoard(GameState),
-        iteration(AfterWhiteMove, Points, NewPoints)
+        iteration(GameState, Points, NewPoints),
+        NextGameState = GameState
         )
     ),
     nl, %count players points 
@@ -38,18 +39,22 @@ gameLoop(GameState):-
     %black
     (
         (
-        contentAnyFound(Col, Row, black, GameState),
-        choosePiece(AfterWhiteMove, _SelectColB, _SelectRowB, AfterBlackMove, black),
+        contentAnyFound(Col, Row, black, NextGameState),
+        choosePiece(NextGameState, _SelectColB, _SelectRowB, AfterBlackMove, black),
         printBoard(AfterBlackMove),
-        iteration(GameState, Points, NewPoints),
+        iteration(AfterBlackMove, Points, NewPoints),!,
         gameLoop(AfterBlackMove)
         )
         ;
         (
-        \+func(Check1),
-        printBoard(AfterWhiteMove),
-        iteration(GameState, Points, NewPoints),
-        gameLoop(AfterWhiteMove)
+        (
+        \+checkGameOver(Check1),
+        printBoard(NextGameState),
+        iteration(NextGameState, Points, NewPoints),!,
+        gameLoop(NextGameState)
+        )
+        ;
+        gameOver
         )
     ).
 
@@ -61,8 +66,9 @@ iteration(GameState, Points, NewPoints):-
         NewIterationCounter is 0,
         iterateBoard(GameState, black, Points, NewPoints, IterationCounter, NewIterationCounter).
 
-func(Check1):-
+checkGameOver(Check1):-
     Check1 == 1.
 
-endGame:-
-    write('Black wins !!!\n Game Over.\n'). 
+
+gameOver:-
+    write('GAME OVER!!!!!\n').

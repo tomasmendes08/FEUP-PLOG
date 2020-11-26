@@ -188,9 +188,9 @@ contentAnyFound(Col, Row, Player, GameState):-
   ;
   contentDownFound(Col, Row, Player, GameState).
 
-contentAnyFound(_, _, _, _):-
+contentAnyFound(_, _, Player, _):-
   %chamar alguma funçao
-  write('The game has ended!'),
+  format('No moves for ~w\n', Player),
   fail.
 
 % RIGHT SIDE

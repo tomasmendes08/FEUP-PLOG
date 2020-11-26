@@ -21,7 +21,7 @@ endgameBoard([
 [[empty,0], [empty,0], [empty,0], [empty,0], [empty,0], [green,1]],
 [[white,0], [empty,0], [empty,0], [empty,0], [empty,0], [empty,0]],
 [[empty,0], [empty,0], [black,6], [empty,0], [empty,0], [empty,0]],
-[[empty,0], [green,1], [empty,0], [empty,0], [black,green,green], [green,1]],
+[[empty,0], [green,1], [empty,0], [empty,0], [black,0], [green,1]],
 [[empty,0], [empty,0], [empty,0], [empty,0], [empty,0], [empty,0]]
 ]).
 
