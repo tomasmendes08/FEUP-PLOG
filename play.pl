@@ -20,7 +20,7 @@ gameLoop(GameState):-
     Row is 0,
     (
         (
-        %valid_moves(GameState, white, _),
+        valid_moves(GameState, white, _),
         contentAnyFound(Col, Row, white, GameState),
         choosePiece(GameState, _SelectColW, _SelectRowW, AfterWhiteMove, white),
         printBoard(AfterWhiteMove),

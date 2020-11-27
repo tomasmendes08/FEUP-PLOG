@@ -10,10 +10,8 @@ checkEmptyContent(Content):- Content == [empty,0].
 
 
 getMatrixAt(Row, Col, Matrix, Value):-
-  Row1 is Row+1,
-  Col1 is Col+1,
-  nth1(Row1, Matrix, MatrixRow),
-  nth1(Col1, MatrixRow, Value).
+  nth0(Row, Matrix, MatrixRow),
+  nth0(Col, MatrixRow, Value).
 
 
 valid_moves(GameState, Player, ListOfMoves):-
@@ -121,14 +119,14 @@ validateFirstPiece(GameState, Player, Row, Col):-
 checkMoves(GameState, Player, SelectCol, SelectRow, MoveCol, MoveRow):-
   getMatrixAt(MoveRow, MoveCol, GameState, MoveContent),
   checkPiece(MoveContent),
-  SelectCol =:= MoveCol,
+  SelectCol == MoveCol,
   (
     SelectRow < MoveRow -> AuxRow is MoveRow - SelectRow, AuxRow < 6, checkDownPieces(GameState, Player, MoveCol, MoveRow, AuxRow);
     AuxRow is SelectRow - MoveRow, AuxRow < 6, checkUpPieces(GameState, Player, MoveCol, MoveRow, AuxRow)
   );
   getMatrixAt(MoveRow, MoveCol, GameState, MoveContent),
   checkPiece(MoveContent),
-  SelectRow =:= MoveRow,
+  SelectRow == MoveRow,
   (
     SelectCol < MoveCol -> AuxCol is MoveCol - SelectCol, AuxCol < 6, checkRightPieces(GameState, Player, MoveCol, MoveRow, AuxCol);
     AuxCol is SelectCol - MoveCol, AuxCol < 6, checkLeftPieces(GameState, Player, MoveCol, MoveRow, AuxCol) 

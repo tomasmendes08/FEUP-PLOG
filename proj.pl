@@ -3,7 +3,7 @@
 :-consult('display.pl').
 :-consult('input.pl').
 :-consult('utils.pl').
-%Para começar dar load do proj.pl e usar comando start.
+%Para começar dar load do proj.pl e usar comando play.
 
 play:-
     write('1. Play Player vs Player\n'),
