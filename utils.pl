@@ -9,22 +9,16 @@ checkPiece(Content):- Content \= [empty,0].
 checkEmptyContent(Content):- Content == [empty,0].
 
 
-getMatrixAt(0, Column, [HeaderLines|_], Number):-
-	getLineAt(Column, HeaderLines, Number).
+getMatrixAt(Row, Col, Matrix, Value):-
+  Row1 is Row+1,
+  Col1 is Col+1,
+  nth1(Row1, Matrix, MatrixRow),
+  nth1(Col1, MatrixRow, Value).
 
 
-getMatrixAt(Line, Column, [_|TailLines], Number):-
-	Line > 0,
-	NewLine is Line-1,
-	getMatrixAt(NewLine, Column, TailLines, Number).
-  
-
-getLineAt(0, [HeaderNumbers|_], HeaderNumbers).
-
-getLineAt(Index, [_|TailNumbers], Number):-
-	Index > 0,
-	NewIndex is Index-1,
-	getLineAt(NewIndex, TailNumbers, Number).
+valid_moves(GameState, Player, ListOfMoves):-
+  findall(pair(position(X,Y),position(X1,Y1)), checkMoves(GameState, Player, X, Y, X1, Y1), ListOfMoves),
+  write(ListOfMoves).
   
 
 
@@ -58,46 +52,7 @@ replace_columnempty([C|Cs] , Y , Z , [C|Rs]) :-
   Y1 is Y-1 ,                              
   replace_columnempty( Cs , Y1 , Z , Rs ).      
 
-
-countGreen([], _, Counter, NewCounter):-
-    %write(Counter),nl,
-    NewCounter = Counter.
-
-countGreen([H|T], H, OldCounter, NewCounter):-
-    NewCounter2 is OldCounter+1,
-    countGreen(T, H, NewCounter2, NewCounter).
-
-countGreen([_|T], H2, Counter, NewCounter):-
-    countGreen(T, H2, Counter, NewCounter).
-
-
-iterateBoard([], Player, _Points, _NewPoints, _PreviousIterationCounter, NewPreviousIterCounter):-
-  format('\n~w points = ~w\n',[Player,NewPreviousIterCounter]).
-
-
-iterateBoard([H|T], Player, Points, NewPoints, PreviousIterationCounter, NewPreviousIterCounter):-
-  lineFound(H, Player, Points, NewPoints, PreviousIterationCounter, FinalCounter),
-  %nl,write(FinalCounter),nl,
-  AuxNewPreviousIterCounter is FinalCounter + NewPreviousIterCounter,
-  %nl,write(AuxNewPreviousIterCounter),nl,
-  iterateBoard(T, Player, 0, _AuxPoints, PreviousIterationCounter, AuxNewPreviousIterCounter).
-
-
-lineFound([], _, _Points, _NewPoints, NewPreviousIterCounter, FinalCounter):- 
-  FinalCounter = NewPreviousIterCounter.
-
-lineFound([H|T], Player, Points, NewPoints, PreviousIterationCounter, FinalCounter):-
-  countAllPoints(H, Player, Points, NewPoints),
-  NewPreviousIterCounter is PreviousIterationCounter + NewPoints,
-  lineFound(T, Player, 0, _AuxCounter, NewPreviousIterCounter, FinalCounter).
-
-
-countAllPoints([H|T], Player, Counter, NewCounter):-
-  (
-    checkPlayer([H|T], Player) -> countGreen([H|T], green, Counter, NewCounter); %nl,write(NewCounter),nl;
-    NewCounter is 0
-  ).
-
+%COUNT POINTS
 
 validateFirstPiece(GameState, Player, Row, Col):-
   getMatrixAt(Row, Col, GameState, Content),
@@ -108,9 +63,8 @@ validateFirstPiece(GameState, Player, Row, Col):-
 %CHECK IF MOVE IS POSSIBLE
 
 
-checkMoves(GameState, Player, SelectCol, SelectRow, MoveCol, MoveRow, _ConfirmedCol, _ConfirmedRow):-
+checkMoves(GameState, Player, SelectCol, SelectRow, MoveCol, MoveRow):-
   getMatrixAt(MoveRow, MoveCol, GameState, MoveContent),
-  %write(MoveContent),nl,
   checkPiece(MoveContent),
   SelectCol =:= MoveCol,
   (
@@ -118,7 +72,6 @@ checkMoves(GameState, Player, SelectCol, SelectRow, MoveCol, MoveRow, _Confirmed
     AuxRow is SelectRow - MoveRow, AuxRow < 6, checkUpPieces(GameState, Player, MoveCol, MoveRow, AuxRow)
   );
   getMatrixAt(MoveRow, MoveCol, GameState, MoveContent),
-  %write(MoveContent),nl,
   checkPiece(MoveContent),
   SelectRow =:= MoveRow,
   (

@@ -20,17 +20,18 @@ gameLoop(GameState):-
     Row is 0,
     (
         (
+        %valid_moves(GameState, white, _),
         contentAnyFound(Col, Row, white, GameState),
         choosePiece(GameState, _SelectColW, _SelectRowW, AfterWhiteMove, white),
         printBoard(AfterWhiteMove),
-        iteration(AfterWhiteMove, Points, NewPoints),
+        iterationPrint(AfterWhiteMove),
         NextGameState = AfterWhiteMove
         )
         ;
         (
         Check1 is 1,
         printBoard(GameState),
-        iteration(GameState, Points, NewPoints),
+        iterationPrint(GameState),
         NextGameState = GameState
         )
     ),
@@ -42,7 +43,7 @@ gameLoop(GameState):-
         contentAnyFound(Col, Row, black, NextGameState),
         choosePiece(NextGameState, _SelectColB, _SelectRowB, AfterBlackMove, black),
         printBoard(AfterBlackMove),
-        iteration(AfterBlackMove, Points, NewPoints),!,
+        iterationPrint(AfterBlackMove),!,
         gameLoop(AfterBlackMove)
         )
         ;
@@ -50,7 +51,7 @@ gameLoop(GameState):-
         (
         \+checkGameOver(Check1),
         printBoard(NextGameState),
-        iteration(NextGameState, Points, NewPoints),!,
+        iterationPrint(NextGameState),!,
         gameLoop(NextGameState)
         )
         ;
@@ -58,13 +59,46 @@ gameLoop(GameState):-
         )
     ).
 
-iteration(GameState, Points, NewPoints):-
-        IterationCounter is 0,
-        NewIterationCounter is 0,
-        iterateBoard(GameState, white, Points, NewPoints, IterationCounter, NewIterationCounter),
-        IterationCounter is 0,
-        NewIterationCounter is 0,
-        iterateBoard(GameState, black, Points, NewPoints, IterationCounter, NewIterationCounter).
+
+iterationPrint(NextGameState):-
+    iterateBoard(NextGameState, white, WhitePoints),
+    format('\n~w points  = ~w\n', [white, WhitePoints]),
+    iterateBoard(NextGameState, black, BlackPoints),
+    format('\n~w points  = ~w\n', [black, BlackPoints]).
+
+
+iterateBoard([], _, 0).
+
+iterateBoard([H|T],Player, BoardPoints):-
+    iterateLine(H, Player, LinePoints),
+    iterateBoard(T, Player, TailPoints),
+    BoardPoints is LinePoints + TailPoints.
+
+iterateLine([], _, 0).
+
+iterateLine([H|T], Player, LinePoints):-
+    iterateCell(H, Player, CellPoints),
+    iterateLine(T, Player, TailLinePoints),
+    LinePoints is CellPoints + TailLinePoints.
+
+iterateCell([], _, 0).
+
+iterateCell(Cell, Player, Points):-
+    (
+    checkPlayer(Cell, Player),
+    count(green, Cell, Points)
+    ;
+    Points is 0
+    ).
+
+
+
+count(_, [], 0).
+count(X, [X | T], N) :-
+  !, count(X, T, N1),
+  N is N1 + 1.
+count(X, [_ | T], N) :-
+  count(X, T, N).
 
 checkGameOver(Check1):-
     Check1 == 1.
