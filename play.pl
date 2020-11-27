@@ -1,4 +1,4 @@
-play:-
+start:-
     initial(GameState),
     display_game(GameState),
     gameLoop(GameState).
