@@ -16,7 +16,7 @@ gameLoop(GameState):-
     /*Row is 0,    
     checkIfExistsMoves(GameState, white, Row),
     */
-    write('\naqui\n'),
+    %write('\naqui\n'),
     Col is 0, 
     Row is 0,
     (
