@@ -15,9 +15,12 @@ getMatrixAt(Row, Col, Matrix, Value):-
 
 
 valid_moves(GameState, Player, ListOfMoves):-
-  findall(pair(position(X,Y),position(X1,Y1)), checkMoves(GameState, Player, X, Y, X1, Y1), ListOfMoves),
-  write(ListOfMoves).
-  
+  findall(
+    [X,Y,X1,Y1], (checkMoves(GameState, Player, X, Y, X1, Y1), 
+    getMatrixAt(Y, X, GameState, Content), checkPlayer(Content, Player)), 
+    ListOfMoves
+  ),
+  write(ListOfMoves),nl.
 
 
 replaceCell([L|Ls] , 0 , Y , Z , [R|Ls]) :- 
@@ -117,13 +120,17 @@ validateFirstPiece(GameState, Player, Row, Col):-
 
 
 checkMoves(GameState, Player, SelectCol, SelectRow, MoveCol, MoveRow):-
+  getMatrixAt(SelectRow, SelectCol, GameState, SelectContent),
   getMatrixAt(MoveRow, MoveCol, GameState, MoveContent),
   checkPiece(MoveContent),
   SelectCol == MoveCol,
   (
     SelectRow < MoveRow -> AuxRow is MoveRow - SelectRow, AuxRow < 6, checkDownPieces(GameState, Player, MoveCol, MoveRow, AuxRow);
     AuxRow is SelectRow - MoveRow, AuxRow < 6, checkUpPieces(GameState, Player, MoveCol, MoveRow, AuxRow)
-  );
+  ).
+  
+checkMoves(GameState, Player, SelectCol, SelectRow, MoveCol, MoveRow):-
+  getMatrixAt(SelectRow, SelectCol, GameState, SelectContent),
   getMatrixAt(MoveRow, MoveCol, GameState, MoveContent),
   checkPiece(MoveContent),
   SelectRow == MoveRow,
@@ -367,5 +374,16 @@ contentUpFoundAux(Col, Row, Player, GameState):-
   Row > -1,
   AuxRow is Row - 1,
   contentUpFoundAux(Col, AuxRow, Player, GameState).
+
+
+
+% BOT - LEVEL 1
+% BOT MOVES
+
+choose_move(GameState, Player, Level, Move):-
+  valid_moves(GameState, Player, ListOfMoves),
+  length(ListOfMoves, Length),
+  random(1, Length, Choice),
+  nth1(Choice, ListOfMoves, Move).
 
 

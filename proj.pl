@@ -1,4 +1,5 @@
-:- use_module(library(lists)).
+:- use_module(library('lists')).
+:- use_module(library('random')).
 :-consult('play.pl').
 :-consult('display.pl').
 :-consult('input.pl').
@@ -15,6 +16,7 @@ play:-
     Selection is 1,
     start
     ;
-    true
+    Selection is 2,
+    startPvsBot
     ).
 
