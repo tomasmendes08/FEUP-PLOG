@@ -17,12 +17,12 @@ midgameBoard([
 ]).
 
 endgameBoard([
-[[empty,0], [empty,0], [empty,0], [white, 0,green,1,green,1,green,1,green,1], [empty,0], [empty,0]],
-[[empty,0], [empty,0], [empty,0], [empty,0], [empty,0], [green,1]],
-[[white, 0,green,1,green,1], [empty,0], [empty,0], [empty,0], [empty,0], [empty,0]],
-[[empty,0], [empty,0], [black,0,green,1,green,1,green,1,green,1,green,1,green,1], [empty,0], [empty,0], [empty,0]],
-[[empty,0], [green,1], [empty,0], [empty,0], [empty,0], [green,1]],
-[[empty,0], [empty,0], [empty,0], [empty,0], [black,0,green,1,green,1,green,1,green,1,green,1,green,1], [empty,0]]
+[[empty,0], [empty,0], [empty,0], [white, 0,black,0,green,1,black,0,green,1,green,1,green,1], [empty,0], [empty,0]],
+[[empty,0], [empty,0], [empty,0], [empty,0], [empty,0], [empty,0]],
+[[white, 0,black,0, black,0,green,1,green,1], [empty,0], [empty,0], [empty,0], [empty,0], [empty,0]],
+[[empty,0], [empty,0], [black,0,green,1,green,1,white,0,white,0,green,1,green,1,green,1,green,1], [empty,0], [empty,0], [empty,0]],
+[[empty,0], [empty,0], [empty,0], [empty,0], [empty,0], [empty,0]],
+[[empty,0], [empty,0], [empty,0], [empty,0], [black,0,green,1,green,1,white,0, white,0,green,1,green,1,green,1,green,1], [empty,0]]
 ]).
 
 
