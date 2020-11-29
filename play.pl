@@ -190,6 +190,7 @@ gameLoop(GameState):-
         contentAnyFound(Col, Row, white, GameState),
         choosePiece(GameState, AfterWhiteMove, white),
         printBoard(AfterWhiteMove),
+        write(AfterWhiteMove),nl,
         iterationPrint(AfterWhiteMove),
         NextGameState = AfterWhiteMove
         )
