@@ -54,21 +54,19 @@ replace_columnempty([C|Cs] , Y , Z , [C|Rs]) :-
   replace_columnempty( Cs , Y1 , Z , Rs ).      
 
 
-value(GameState, Player, Value):-
-  iterateBoard(GameState, Player, Value).
 
 iterationPrint(GameState):-
-    iterateBoard(GameState, white, WhitePoints),
+    value(GameState, white, WhitePoints),
     format('\n~w points  = ~w\n', [white, WhitePoints]),
-    iterateBoard(GameState, black, BlackPoints),
+    value(GameState, black, BlackPoints),
     format('\n~w points  = ~w\n', [black, BlackPoints]).
 
 
-iterateBoard([], _, 0).
+value([], _, 0).
 
-iterateBoard([H|T],Player, BoardPoints):-
+value([H|T],Player, BoardPoints):-
     iterateLine(H, Player, LinePoints),
-    iterateBoard(T, Player, TailPoints),
+    value(T, Player, TailPoints),
     BoardPoints is LinePoints + TailPoints.
 
 iterateLine([], _, 0).
@@ -123,7 +121,7 @@ validateFirstPiece(GameState, Player, Row, Col):-
 
 
 checkMoves(GameState, Player, SelectCol, SelectRow, MoveCol, MoveRow):-
-  getMatrixAt(SelectRow, SelectCol, GameState, SelectContent),
+  getMatrixAt(SelectRow, SelectCol, GameState, _SelectContent),
   getMatrixAt(MoveRow, MoveCol, GameState, MoveContent),
   checkPiece(MoveContent),
   SelectCol == MoveCol,
@@ -133,7 +131,7 @@ checkMoves(GameState, Player, SelectCol, SelectRow, MoveCol, MoveRow):-
   ).
   
 checkMoves(GameState, Player, SelectCol, SelectRow, MoveCol, MoveRow):-
-  getMatrixAt(SelectRow, SelectCol, GameState, SelectContent),
+  getMatrixAt(SelectRow, SelectCol, GameState, _SelectContent),
   getMatrixAt(MoveRow, MoveCol, GameState, MoveContent),
   checkPiece(MoveContent),
   SelectRow == MoveRow,
@@ -380,34 +378,3 @@ contentUpFoundAux(Col, Row, Player, GameState):-
 
 
 
-% BOT - LEVEL 1
-% BOT MOVES
-
-choose_move(GameState, Player, 1, Move):-
-  valid_moves(GameState, Player, ListOfMoves),
-  length(ListOfMoves, Length),
-  random(1, Length, Choice),
-  nth1(Choice, ListOfMoves, Move).
-
-% BOT - LEVEL 2
-
-choose_move(GameState, Player, 2, Move):-
-  valid_moves(GameState, Player, ListOfMoves),
-  length(ListOfMoves, Length),
-  bestMove(GameState, ListOfMoves, Move, Player).
-
-
-bestMove(GameState, ListOfMoves, BestMove, Player):-
-  write(ListOfMoves),
-  setof(Move-NextGameState,(member(Move, ListOfMoves), botTestMove(GameState, Move, NextGameState)),MovesGame),
-  setof(Score-Move, (member(Move-GameState, MovesGame),value(GameState, Player, Score)), Total),
-  nth0(0, Total, AuxMove),
-  AuxMove is Score-Move.
-
-
-botTestMove(GameState, Move, NextGameState):-
-    nth0(0, Move, SelectCol),
-    nth0(1, Move, SelectRow),
-    nth0(2, Move, MoveCol),
-    nth0(3, Move, MoveRow),
-    movePiece(GameState, SelectCol, SelectRow, MoveCol, MoveRow, NextGameState).

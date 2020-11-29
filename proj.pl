@@ -4,6 +4,7 @@
 :-consult('display.pl').
 :-consult('input.pl').
 :-consult('utils.pl').
+:-consult('bot.pl').
 %Para começar dar load do proj.pl e usar comando play.
 
 play:-
@@ -17,7 +18,10 @@ play:-
     start
     ;
     Selection is 2,
-    startPvsBot
+    startPvsBotEasy
+    ;
+    Selection is 3,
+    startPvsBotHard
     ;
     Selection is 4,
     startBotvsBot

@@ -59,7 +59,7 @@ gameLoopBotvBot(GameState):-
     (
         (
         contentAnyFound(Col, Row, black, NextGameState),
-        choose_move(NextGameState, black, 1, MoveBlack),
+        choose_move(NextGameState, black, 2, MoveBlack),
         botMove(NextGameState, MoveBlack, black, AfterBlackMove),
         printBoard(AfterBlackMove),
         iterationPrint(AfterBlackMove),
@@ -75,7 +75,7 @@ gameLoopBotvBot(GameState):-
         gameLoopBotvBot(NextGameState)
         )
         ;
-        gameOver(GameState, Winner),
+        game_over(GameState, Winner),
         congratulations(Winner)
         )
 
@@ -124,7 +124,7 @@ gameLoopPvBotEasy(GameState):-
         gameLoopPvBotEasy(NextGameState)
         )
         ;
-        gameOver(GameState, Winner),
+        game_over(GameState, Winner),
         congratulations(Winner)
         )
 
@@ -174,7 +174,7 @@ gameLoopPvBotHard(GameState):-
         gameLoopPvBotHard(NextGameState)
         )
         ;
-        gameOver(GameState, Winner),
+        game_over(GameState, Winner),
         congratulations(Winner)
         )
 
@@ -222,7 +222,7 @@ gameLoop(GameState):-
         gameLoop(NextGameState)
         )
         ;
-        gameOver(GameState, Winner),
+        game_over(GameState, Winner),
         congratulations(Winner)
         )
 
@@ -230,7 +230,7 @@ gameLoop(GameState):-
     ).
 
 
-gameOver(GameState, Winner):-
+game_over(GameState, Winner):-
     value(GameState, white, ValueW),
     value(GameState, black, ValueB),
     (

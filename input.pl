@@ -2,18 +2,16 @@ choosePiece(GameState, MoveDoneGameState, Player):-
     %need a repeat here in case of bad input
     repeat,
         format('\nChoose a ~w Piece!\n\n', Player),
-        readFirstInput(SelectCol, SelectRow, ConfirmedCol, ConfirmedRow, Player, GameState),
+        readFirstInput(_SelectCol, _SelectRow, ConfirmedCol, ConfirmedRow, Player, GameState),
         validateSecondInput(ConfirmedCol, ConfirmedRow, ConfirmedMoveCol, ConfirmedMoveRow, Player, GameState),
         movePiece(GameState, ConfirmedCol, ConfirmedRow, ConfirmedMoveCol, ConfirmedMoveRow, MoveDoneGameState).
 
 movePiece(GameState, ConfirmedCol, ConfirmedRow, ConfirmedMoveCol, ConfirmedMoveRow, MoveDoneGameState):-
     getMatrixAt(ConfirmedRow, ConfirmedCol, GameState, Content),
-    nl,
     getMatrixAt(ConfirmedMoveRow, ConfirmedMoveCol, GameState, _MoveContent),
     %write('\nhello\n'),
     replaceEmpty(GameState, ConfirmedRow, ConfirmedCol, [empty, 0], NewGameState),
-    replaceCell(NewGameState, ConfirmedMoveRow, ConfirmedMoveCol, Content, MoveDoneGameState),
-    nl.
+    replaceCell(NewGameState, ConfirmedMoveRow, ConfirmedMoveCol, Content, MoveDoneGameState).
 
 
 readFirstInput(Col, Row, ConfirmedCol, ConfirmedRow, Player, GameState):-
