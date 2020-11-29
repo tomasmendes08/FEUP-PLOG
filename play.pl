@@ -9,7 +9,8 @@ startPvsBot:-
     gameLoopPvBot(GameState).
 
 initial(GameState):-
-    midgameBoard(GameState).
+    endgameBoard(GameState).
+    %midgameBoard(GameState).
     %initialBoard(GameState).
 
 display_game(GameState):-
@@ -29,6 +30,7 @@ gameLoopPvBot(GameState):-
         nth0(2, Move, MoveCol),
         nth0(3, Move, MoveRow),
         movePiece(GameState, SelectCol, SelectRow, MoveCol, MoveRow, AfterWhiteMove),
+        write(AfterWhiteMove),nl,
         printBoard(AfterWhiteMove),
         iterationPrint(AfterWhiteMove),
         NextGameState = AfterWhiteMove
@@ -78,6 +80,7 @@ gameLoop(GameState):-
         contentAnyFound(Col, Row, white, GameState),
         choosePiece(GameState, _SelectColW, _SelectRowW, AfterWhiteMove, white),
         printBoard(AfterWhiteMove),
+        write(AfterWhiteMove),nl,
         iterationPrint(AfterWhiteMove),
         NextGameState = AfterWhiteMove
         )
