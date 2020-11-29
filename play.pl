@@ -3,10 +3,15 @@ start:-
     display_game(GameState),
     gameLoop(GameState).
 
-startPvsBot:-
+startPvsBotEasy:-
     initial(GameState),
     display_game(GameState),
     gameLoopPvBotEasy(GameState).
+
+startPvsBotHard:-
+    initial(GameState),
+    display_game(GameState),
+    gameLoopPvBotHard(GameState).
 
 startBotvsBot:-
     initial(GameState),
@@ -38,7 +43,7 @@ gameLoopBotvBot(GameState):-
     (
         (
         contentAnyFound(Col, Row, white, GameState),
-        choose_move(GameState, white, 1, Move),
+        choose_move(GameState, white, 2, Move),
         botMove(GameState, Move, white, AfterWhiteMove),
         printBoard(AfterWhiteMove),
         iterationPrint(AfterWhiteMove),
@@ -59,7 +64,7 @@ gameLoopBotvBot(GameState):-
     (
         (
         contentAnyFound(Col, Row, black, NextGameState),
-        choose_move(NextGameState, black, 2, MoveBlack),
+        choose_move(NextGameState, black, 1, MoveBlack),
         botMove(NextGameState, MoveBlack, black, AfterBlackMove),
         printBoard(AfterBlackMove),
         iterationPrint(AfterBlackMove),
@@ -109,7 +114,7 @@ gameLoopPvBotEasy(GameState):-
     (
         (
         contentAnyFound(Col, Row, black, NextGameState),
-        choosePiece(NextGameState, AfterBlackMove, black),
+        move(NextGameState, black, AfterBlackMove),
         printBoard(AfterBlackMove),
         iterationPrint(AfterBlackMove),
         wait,!,
@@ -139,7 +144,7 @@ gameLoopPvBotHard(GameState):-
         (
         contentAnyFound(Col, Row, white, GameState),
         choose_move(GameState, white, 2, Move),
-        botMove(NextGameState, Move, white, AfterBlackMove),
+        botMove(GameState, Move, white, AfterWhiteMove),
         printBoard(AfterWhiteMove),
         iterationPrint(AfterWhiteMove),
         wait,
@@ -159,7 +164,7 @@ gameLoopPvBotHard(GameState):-
     (
         (
         contentAnyFound(Col, Row, black, NextGameState),
-        choosePiece(NextGameState, AfterBlackMove, black),
+        move(NextGameState, black, AfterBlackMove),
         printBoard(AfterBlackMove),
         iterationPrint(AfterBlackMove),
         wait,!,
@@ -188,7 +193,7 @@ gameLoop(GameState):-
     (
         (
         contentAnyFound(Col, Row, white, GameState),
-        choosePiece(GameState, AfterWhiteMove, white),
+        move(GameState, white, AfterWhiteMove),
         printBoard(AfterWhiteMove),
         write(AfterWhiteMove),nl,
         iterationPrint(AfterWhiteMove),
@@ -208,7 +213,7 @@ gameLoop(GameState):-
     (
         (
         contentAnyFound(Col, Row, black, NextGameState),
-        choosePiece(NextGameState, AfterBlackMove, black),
+        move(NextGameState, black, AfterBlackMove),
         printBoard(AfterBlackMove),
         iterationPrint(AfterBlackMove),!,
         gameLoop(AfterBlackMove)
@@ -247,7 +252,7 @@ game_over(GameState, Winner):-
 congratulations(Winner):-
     (Winner == 'White' ; Winner == 'Black'),
     write('GAME OVER!\n'),
-    format('Winner is ~w!', Winner).
+    format('Congratulations ~w, you won!', Winner).
 
 
 congratulations(Winner):-

@@ -25,6 +25,14 @@ endgameBoard([
 [[empty,0], [empty,0], [empty,0], [empty,0], [black,0,green,1,green,1,white,0, white,0,green,1,green,1,green,1,green,1], [empty,0]]
 ]).
 
+testBoard([
+[[green,1], [empty,0], [empty,0], [green,1], [empty,0], [green,1]],
+[[empty,0], [empty,0], [white,0,green,1], [empty,0], [empty,0], [empty,0]],
+[[empty,0], [empty,0], [empty,0], [empty,0], [empty,0], [green,1]],
+[[empty,0], [empty,0], [black,0], [empty,0], [empty,0], [empty,0]],
+[[empty,0], [black,0,green,1], [empty,0], [empty,0], [empty,0], [empty,0]],
+[[empty,0], [empty,0], [empty,0], [empty,0], [empty,0], [black,0,green,1,green,1,green,1]]]).
+
 
 
 /*symbol(green, 1, S):- S='G1'.

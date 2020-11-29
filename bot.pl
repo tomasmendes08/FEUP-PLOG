@@ -5,8 +5,8 @@
 choose_move(GameState, Player, 1, Move):-
   valid_moves(GameState, Player, ListOfMoves),
   length(ListOfMoves, Length),
-  random(1, Length, Choice),
-  nth1(Choice, ListOfMoves, Move).
+  random(0, Length, Choice),
+  nth0(Choice, ListOfMoves, Move).
 
 % BOT - LEVEL 2
 
