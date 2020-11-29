@@ -18,5 +18,10 @@ play:-
     ;
     Selection is 2,
     startPvsBot
+    ;
+    Selection is 4,
+    startBotvsBot
+    ;
+    true
     ).
 

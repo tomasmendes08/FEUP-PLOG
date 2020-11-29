@@ -1,4 +1,4 @@
-choosePiece(GameState, SelectCol, SelectRow, MoveDoneGameState, Player):-
+choosePiece(GameState, MoveDoneGameState, Player):-
     %need a repeat here in case of bad input
     repeat,
         format('\nChoose a ~w Piece!\n\n', Player),

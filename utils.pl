@@ -16,11 +16,11 @@ getMatrixAt(Row, Col, Matrix, Value):-
 
 valid_moves(GameState, Player, ListOfMoves):-
   findall(
-    [X,Y,X1,Y1], (checkMoves(GameState, Player, X, Y, X1, Y1), 
-    getMatrixAt(Y, X, GameState, Content), checkPlayer(Content, Player)), 
+    [X,Y,X1,Y1], (getMatrixAt(Y, X, GameState, Content),
+    checkMoves(GameState, Player, X, Y, X1, Y1), 
+    checkPlayer(Content, Player)), 
     ListOfMoves
-  ),
-  write(ListOfMoves),nl.
+  ).
 
 
 replaceCell([L|Ls] , 0 , Y , Z , [R|Ls]) :- 
@@ -54,10 +54,13 @@ replace_columnempty([C|Cs] , Y , Z , [C|Rs]) :-
   replace_columnempty( Cs , Y1 , Z , Rs ).      
 
 
-iterationPrint(NextGameState):-
-    iterateBoard(NextGameState, white, WhitePoints),
+value(GameState, Player, Value):-
+  iterateBoard(GameState, Player, Value).
+
+iterationPrint(GameState):-
+    iterateBoard(GameState, white, WhitePoints),
     format('\n~w points  = ~w\n', [white, WhitePoints]),
-    iterateBoard(NextGameState, black, BlackPoints),
+    iterateBoard(GameState, black, BlackPoints),
     format('\n~w points  = ~w\n', [black, BlackPoints]).
 
 
@@ -380,10 +383,31 @@ contentUpFoundAux(Col, Row, Player, GameState):-
 % BOT - LEVEL 1
 % BOT MOVES
 
-choose_move(GameState, Player, Level, Move):-
+choose_move(GameState, Player, 1, Move):-
   valid_moves(GameState, Player, ListOfMoves),
   length(ListOfMoves, Length),
   random(1, Length, Choice),
   nth1(Choice, ListOfMoves, Move).
 
+% BOT - LEVEL 2
 
+choose_move(GameState, Player, 2, Move):-
+  valid_moves(GameState, Player, ListOfMoves),
+  length(ListOfMoves, Length),
+  bestMove(GameState, ListOfMoves, Move, Player).
+
+
+bestMove(GameState, ListOfMoves, BestMove, Player):-
+  write(ListOfMoves),
+  setof(Move-NextGameState,(member(Move, ListOfMoves), botTestMove(GameState, Move, NextGameState)),MovesGame),
+  setof(Score-Move, (member(Move-GameState, MovesGame),value(GameState, Player, Score)), Total),
+  nth0(0, Total, AuxMove),
+  AuxMove is Score-Move.
+
+
+botTestMove(GameState, Move, NextGameState):-
+    nth0(0, Move, SelectCol),
+    nth0(1, Move, SelectRow),
+    nth0(2, Move, MoveCol),
+    nth0(3, Move, MoveRow),
+    movePiece(GameState, SelectCol, SelectRow, MoveCol, MoveRow, NextGameState).
