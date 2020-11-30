@@ -1,18 +1,22 @@
+% MAKES A MOVE
+
 move(GameState, Player, MoveDoneGameState):-
-    %need a repeat here in case of bad input
     repeat,
         format('\nChoose a ~w Piece!\n\n', Player),
         readFirstInput(_SelectCol, _SelectRow, ConfirmedCol, ConfirmedRow, Player, GameState),
         validateSecondInput(ConfirmedCol, ConfirmedRow, ConfirmedMoveCol, ConfirmedMoveRow, Player, GameState),
         movePiece(GameState, ConfirmedCol, ConfirmedRow, ConfirmedMoveCol, ConfirmedMoveRow, MoveDoneGameState).
 
+% PUTS THE PIECE IN PLACE
+
 movePiece(GameState, ConfirmedCol, ConfirmedRow, ConfirmedMoveCol, ConfirmedMoveRow, MoveDoneGameState):-
     getMatrixAt(ConfirmedRow, ConfirmedCol, GameState, Content),
     getMatrixAt(ConfirmedMoveRow, ConfirmedMoveCol, GameState, _MoveContent),
-    %write('\nhello\n'),
     replaceEmpty(GameState, ConfirmedRow, ConfirmedCol, [empty, 0], NewGameState),
     replaceCell(NewGameState, ConfirmedMoveRow, ConfirmedMoveCol, Content, MoveDoneGameState).
 
+
+% READS AND CHECKS THE SELECTED PIECE
 
 readFirstInput(Col, Row, ConfirmedCol, ConfirmedRow, Player, GameState):-
     once(readCol(_C1, Col)),
@@ -26,6 +30,7 @@ readFirstInput(Col, Row, ConfirmedCol, ConfirmedRow, Player, GameState):-
         )
     ).
 
+% READS AND CHECKS THE MOVE LOCATION
 
 validateSecondInput(SelectCol, SelectRow, MoveCol, MoveRow, Player, GameState):-
     write('\nChoose your move:\n'),

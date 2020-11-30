@@ -5,9 +5,12 @@
 :-consult('input.pl').
 :-consult('utils.pl').
 :-consult('bot.pl').
+
 %Para começar dar load do proj.pl e usar comando play.
 
 play:-
+    write('\33\[2J'),
+    write('\n      WELCOME TO GREENER!     \n\n\n'),
     write('1. Play Player vs Player\n'),
     write('2. Play Player vs BotEasy\n'),
     write('3. Play Player vs BotHard\n'),

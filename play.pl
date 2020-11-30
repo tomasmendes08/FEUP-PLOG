@@ -20,7 +20,6 @@ startBotvsBot:-
 
 initial(GameState):-
     initialBoard(GameState).
-    %initialBoard(GameState).
 
 display_game(GameState):-
     printBoard(GameState).
@@ -108,7 +107,7 @@ gameLoopPvBotEasy(GameState):-
         NextGameState = GameState
         )
     ),
-    nl, %count players points 
+    nl,
 
     %black
     (
@@ -158,7 +157,7 @@ gameLoopPvBotHard(GameState):-
         NextGameState = GameState
         )
     ),
-    nl, %count players points 
+    nl,
 
     %black
     (
@@ -207,7 +206,7 @@ gameLoop(GameState):-
         NextGameState = GameState
         )
     ),
-    nl, %count players points 
+    nl,
 
     %black
     (

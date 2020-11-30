@@ -1,6 +1,7 @@
+% BOT MOVES
+
 
 % BOT - LEVEL 1
-% BOT MOVES
 
 choose_move(GameState, Player, 1, Move):-
   valid_moves(GameState, Player, ListOfMoves),
@@ -14,6 +15,7 @@ choose_move(GameState, Player, 2, Move):-
   valid_moves(GameState, Player, ListOfMoves),
   bestMove(GameState, ListOfMoves, Move, Player).
 
+% SEES WHAT MOVE OUT OF THE POSSIBLE GET THE MOST POINTS
 
 bestMove(GameState, ListOfMoves, BestMove, Player):-
   setof(Value-NextGameState-Move,(member(Move, ListOfMoves), botTestMove(GameState, Move, NextGameState),value(NextGameState, Player, Value)) , MoveValues),
