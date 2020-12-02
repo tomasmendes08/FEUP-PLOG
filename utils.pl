@@ -214,7 +214,7 @@ contentAnyFound(Col, Row, Player, GameState):-
   contentDownFound(Col, Row, Player, GameState).
 
 contentAnyFound(_, _, Player, _):-
-  format('No moves for ~w\n', Player),
+  format('\nNo moves for ~w\n', Player),
   fail.
 
 
