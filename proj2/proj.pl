@@ -1,4 +1,6 @@
 :-consult('display.pl').
+:-consult('creation.pl').
+
 play:-
     write('\33\[2J'),
     write('\n      WELCOME TO CHESS-NUM!     \n\n\n'),
