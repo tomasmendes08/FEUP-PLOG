@@ -77,7 +77,7 @@ initialBoard([
 ````
 
 ##### Initial Situation From Sicstus
-![First Board](https://github.com/tomasmendes08/PLOG/blob/main/images/initialboard.png?raw=true)
+![First Board](../images/initialboard.png)
  
 #### Intermediate Situation
 ````
@@ -100,7 +100,7 @@ midgameBoard([
  
 ##### Intermediate Situation From Sicstus
 
-![Mid Board](https://raw.githubusercontent.com/tomasmendes08/PLOG/main/images/midgame.png)
+![Mid Board](../images/midgame.png)
 
 #### Final Situation
 
@@ -124,7 +124,7 @@ endgameBoard([
 
 ##### Final Situation From Sicstus
    
-![EndBoard](https://raw.githubusercontent.com/tomasmendes08/PLOG/main/images/end_game.PNG)
+![EndBoard](../images/end_game.PNG)
 ## GameState Visualization
 For an intuitive visualization, we used **W**, **B**, **G** and " " to represent white, black, green and empty, respectively. Next to the symbol on top of the stack is the number of points or, in other words, the number of green pieces in the stack.
 
