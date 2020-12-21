@@ -9,26 +9,35 @@ initialBoard([
 [1, 0, 0, 1, 0 ,1, 0, 0]
 ]).
 
+testBoard([
+[1, 0, 1],
+[1, 1, 0],
+[' ', 1, 1]
+]).
+
 start:-
     initialBoard(B),
     printBoard(B).
 
+start2:-
+    testBoard(B),
+    printBoard(B).
+
+print_matrix([]).
+print_matrix([H|T]) :- write(H), nl, print_matrix(T).
+
 printBoard(B):-
     nl,
-    write('     |  1  |  2  |  3  |  4  |  5  |  6  |  7  |  8  |\n'),
-    write('-----|-----|-----|-----|-----|-----|-----|-----|-----|\n'),
+    write('|-----|-----|-----|-----|-----|-----|-----|-----|\n'),
     printLines(B, 1).
 
 /*X representa o nmr da linha*/
-printLines([], 9).
+printLines([], 4).
 printLines([H|T], X):-
-    write('  '),
-    write(X),
-    write(' '),
-    write(' |  '),
+    write('|  '),
     printLinesAux(H),
     nl,
-    write('-----|-----|-----|-----|-----|-----|-----|-----|-----|\n'),
+    write('|-----|-----|-----|-----|-----|-----|-----|-----|\n'),
     X1 is X + 1,
     printLines(T, X1).
 
