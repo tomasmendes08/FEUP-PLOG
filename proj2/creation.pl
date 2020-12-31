@@ -2,12 +2,12 @@
 
 
 place_Piece(Board, Piece):-
-    %queenAttack(Board, 7, 0, Board1),
-    %rookAttack(Board1, 6, 3, Board2),
+    rookAttack(Board, 6, 2, Board1),
     %bishopAttack(Board2, 2, 2, Board3),
-    %kingAttack(Board, 1, 1, Board1),
+    kingAttack(Board1, 3, 3, Board2),
+    queenAttack(Board2, 5, 3, Board3),
+    knightAttack(Board3, 1, 5, EndBoard),
     %pawnAttack(Board1, 5, 5, EndBoard),
-    knightAttack(Board, 1, 1, EndBoard),
     printBoard(EndBoard).
 
 
@@ -99,9 +99,14 @@ knightAttack(Board, X, Y, EndBoard):-
 attackKnightUpLeft(Board, X, Y, EndBoard):-
   X1 is X - 1,
   Y1 is Y - 2,
+  (
   getMatrixAt(Y1, X1, Board, Cell),
+  member(Cell, [0,1,2,3,4,5,6,7]),
   NewCell is Cell + 1,
-  replace(Board, Y1, X1, NewCell, EndBoard).
+  replace(Board, Y1, X1, NewCell, EndBoard)
+  ;
+  false
+  ).
 
 attackKnightUpLeft(Board, _, _, Board).
 
@@ -110,9 +115,14 @@ attackKnightUpLeft(Board, _, _, Board).
 attackKnightUpRight(Board, X, Y, EndBoard):-
   X1 is X + 1,
   Y1 is Y - 2,
+  (
   getMatrixAt(Y1, X1, Board, Cell),
+  member(Cell, [0,1,2,3,4,5,6,7]),
   NewCell is Cell + 1,
-  replace(Board, Y1, X1, NewCell, EndBoard).
+  replace(Board, Y1, X1, NewCell, EndBoard)
+  ;
+  false
+  ).
 
 attackKnightUpRight(Board, _, _, Board).
 
@@ -121,9 +131,14 @@ attackKnightUpRight(Board, _, _, Board).
 attackKnightLeftUp(Board, X, Y, EndBoard):-
   X1 is X - 2,
   Y1 is Y - 1,
+  (
   getMatrixAt(Y1, X1, Board, Cell),
+  member(Cell, [0,1,2,3,4,5,6,7]),
   NewCell is Cell + 1,
-  replace(Board, Y1, X1, NewCell, EndBoard).
+  replace(Board, Y1, X1, NewCell, EndBoard)
+  ;
+  false
+  ).
 
 attackKnightLeftUp(Board, _, _, Board).
 
@@ -132,9 +147,14 @@ attackKnightLeftUp(Board, _, _, Board).
 attackKnightLeftDown(Board, X, Y, EndBoard):-
   X1 is X - 2,
   Y1 is Y + 1,
+  (
   getMatrixAt(Y1, X1, Board, Cell),
+  member(Cell, [0,1,2,3,4,5,6,7]),
   NewCell is Cell + 1,
-  replace(Board, Y1, X1, NewCell, EndBoard).
+  replace(Board, Y1, X1, NewCell, EndBoard)
+  ;
+  false
+  ).
 
 attackKnightLeftDown(Board, _, _, Board).
 
@@ -143,9 +163,14 @@ attackKnightLeftDown(Board, _, _, Board).
 attackKnightRightUp(Board, X, Y, EndBoard):-
   X1 is X + 2,
   Y1 is Y - 1,
+  (
   getMatrixAt(Y1, X1, Board, Cell),
+  member(Cell, [0,1,2,3,4,5,6,7]),
   NewCell is Cell + 1,
-  replace(Board, Y1, X1, NewCell, EndBoard).
+  replace(Board, Y1, X1, NewCell, EndBoard)
+  ;
+  false
+  ).
 
 attackKnightRightUp(Board, _, _, Board).
 
@@ -154,9 +179,14 @@ attackKnightRightUp(Board, _, _, Board).
 attackKnightRightDown(Board, X, Y, EndBoard):-
   X1 is X + 2,
   Y1 is Y + 1,
+  (
   getMatrixAt(Y1, X1, Board, Cell),
+  member(Cell, [0,1,2,3,4,5,6,7]),
   NewCell is Cell + 1,
-  replace(Board, Y1, X1, NewCell, EndBoard).
+  replace(Board, Y1, X1, NewCell, EndBoard)
+  ;
+  false
+  ).
 
 attackKnightRightDown(Board, _, _, Board).
 
@@ -165,9 +195,14 @@ attackKnightRightDown(Board, _, _, Board).
 attackKnightDownLeft(Board, X, Y, EndBoard):-
   X1 is X - 1,
   Y1 is Y + 2,
+  (
   getMatrixAt(Y1, X1, Board, Cell),
+  member(Cell, [0,1,2,3,4,5,6,7]),
   NewCell is Cell + 1,
-  replace(Board, Y1, X1, NewCell, EndBoard).
+  replace(Board, Y1, X1, NewCell, EndBoard)
+  ;
+  false
+  ).
 
 attackKnightDownLeft(Board, _, _, Board).
 
@@ -176,9 +211,14 @@ attackKnightDownLeft(Board, _, _, Board).
 attackKnightDownRight(Board, X, Y, EndBoard):-
   X1 is X + 1,
   Y1 is Y + 2,
+  (
   getMatrixAt(Y1, X1, Board, Cell),
+  member(Cell, [0,1,2,3,4,5,6,7]),
   NewCell is Cell + 1,
-  replace(Board, Y1, X1, NewCell, EndBoard).
+  replace(Board, Y1, X1, NewCell, EndBoard)
+  ;
+  false
+  ).
 
 attackKnightDownRight(Board, _, _, Board).
 
@@ -186,9 +226,14 @@ attackKnightDownRight(Board, _, _, Board).
 
 attackLeft(Board, X, Y, EndBoard):-
   X1 is X - 1,
+  (
   getMatrixAt(Y, X1, Board, Cell),
+  member(Cell, [0,1,2,3,4,5,6,7]),
   NewCell is Cell + 1,
-  replace(Board, Y, X1, NewCell, EndBoard).
+  replace(Board, Y, X1, NewCell, EndBoard)
+  ;
+  false
+  ).
 
 attackLeft(Board, _, _, Board).
 
@@ -196,20 +241,29 @@ attackLeft(Board, _, _, Board).
 
 attackRight(Board, X, Y, EndBoard):-
   X1 is X + 1,
+  (
   getMatrixAt(Y, X1, Board, Cell),
+  member(Cell, [0,1,2,3,4,5,6,7]),
   NewCell is Cell + 1,
-  replace(Board, Y, X1, NewCell, EndBoard).
+  replace(Board, Y, X1, NewCell, EndBoard)
+  ;
+  false
+  ).
 
 attackRight(Board, _, _, Board).
-
 
 % ATTACK UP
 
 attackUp(Board, X, Y, EndBoard):-
   Y1 is Y - 1,
+  (
   getMatrixAt(Y1, X, Board, Cell),
+  member(Cell, [0,1,2,3,4,5,6,7]),
   NewCell is Cell + 1,
-  replace(Board, Y1, X, NewCell, EndBoard).
+  replace(Board, Y1, X, NewCell, EndBoard)
+  ;
+  false
+  ).
 
 attackUp(Board, _, _, Board).
 
@@ -217,9 +271,14 @@ attackUp(Board, _, _, Board).
 
 attackDown(Board, X, Y, EndBoard):-
   Y1 is Y + 1,
+  (
   getMatrixAt(Y1, X, Board, Cell),
+  member(Cell, [0,1,2,3,4,5,6,7]),
   NewCell is Cell + 1,
-  replace(Board, Y1, X, NewCell, EndBoard).
+  replace(Board, Y1, X, NewCell, EndBoard)
+  ;
+  false
+  ).
 
 attackDown(Board, _, _, Board).
 
@@ -228,9 +287,14 @@ attackDown(Board, _, _, Board).
 attackUpLeft(Board, X, Y, EndBoard):-
   X1 is X - 1,
   Y1 is Y - 1,
+  (
   getMatrixAt(Y1, X1, Board, Cell),
+  member(Cell, [0,1,2,3,4,5,6,7]),
   NewCell is Cell + 1,
-  replace(Board, Y1, X1, NewCell, EndBoard).
+  replace(Board, Y1, X1, NewCell, EndBoard)
+  ;
+  false
+  ).
 
 attackUpLeft(Board, _, _, Board).
 
@@ -239,9 +303,14 @@ attackUpLeft(Board, _, _, Board).
 attackDownLeft(Board, X, Y, EndBoard):-
   X1 is X - 1,
   Y1 is Y + 1,
+  (
   getMatrixAt(Y1, X1, Board, Cell),
+  member(Cell, [0,1,2,3,4,5,6,7]),
   NewCell is Cell + 1,
-  replace(Board, Y1, X1, NewCell, EndBoard).
+  replace(Board, Y1, X1, NewCell, EndBoard)
+  ;
+  false
+  ).
 
 attackDownLeft(Board, _, _, Board).
 
@@ -250,9 +319,14 @@ attackDownLeft(Board, _, _, Board).
 attackDownRight(Board, X, Y, EndBoard):-
   X1 is X + 1,
   Y1 is Y + 1,
+  (
   getMatrixAt(Y1, X1, Board, Cell),
+  member(Cell, [0,1,2,3,4,5,6,7]),
   NewCell is Cell + 1,
-  replace(Board, Y1, X1, NewCell, EndBoard).
+  replace(Board, Y1, X1, NewCell, EndBoard)
+  ;
+  false
+  ).
 
 attackDownRight(Board, _, _, Board).
 
@@ -261,24 +335,19 @@ attackDownRight(Board, _, _, Board).
 attackUpRight(Board, X, Y, EndBoard):-
   X1 is X + 1,
   Y1 is Y - 1,
+  (
   getMatrixAt(Y1, X1, Board, Cell),
+  member(Cell, [0,1,2,3,4,5,6,7]),
   NewCell is Cell + 1,
-  replace(Board, Y1, X1, NewCell, EndBoard).
+  replace(Board, Y1, X1, NewCell, EndBoard)
+  ;
+  false
+  ).
 
 attackUpRight(Board, _, _, Board).
 
 
 % ATTACK LINE
-
-attackRight(Board, X, Y, EndBoard):-
-  X1 is X + 1,
-  (
-  getMatrixAt(Y, X1, Board, Cell),
-  NewCell is Cell + 1,
-  replace(Board, Y, X1, NewCell, EndBoard)
-  ;
-  EndBoard is Board
-  ).
 
 attackRow(Board, X, Y, EndBoard):-
   attackRowNeg(Board, X, Y, NewBoard),
@@ -288,19 +357,33 @@ attackRowNeg(Board, 0, _, Board).
 
 attackRowNeg(Board, X, Y, EndBoard):-
   X1 is X-1,
+  (
   getMatrixAt(Y, X1, Board, Cell),
+  member(Cell, [0,1,2,3,4,5,6,7]),
   NewCell is Cell + 1,
   replace(Board, Y, X1, NewCell, NewBoard),!,
-  attackRowNeg(NewBoard, X1, Y, EndBoard).
+  attackRowNeg(NewBoard, X1, Y, EndBoard)
+  ;
+  false
+  ).
+
+attackRowNeg(Board, _, _, Board).
 
 attackRowPos(Board, 7, _, Board).
 
 attackRowPos(Board, X, Y, EndBoard):-
   X1 is X + 1,
+  (
   getMatrixAt(Y, X1, Board, Cell),
+  member(Cell, [0,1,2,3,4,5,6,7]),
   NewCell is Cell + 1,
   replace(Board, Y, X1, NewCell, NewBoard),!,
-  attackRowPos(NewBoard, X1, Y, EndBoard).
+  attackRowPos(NewBoard, X1, Y, EndBoard)
+  ;
+  false
+  ).
+
+attackRowPos(Board, _, _, Board).
 
 % ATTACK COLUMN
 
@@ -312,19 +395,29 @@ attackColumnNeg(Board, _, 0, Board).
 
 attackColumnNeg(Board, X, Y, EndBoard):-
   Y1 is Y-1,
+  (
   getMatrixAt(Y1, X, Board, Cell),
+  member(Cell, [0,1,2,3,4,5,6,7]),
   NewCell is Cell + 1,
   replace(Board, Y1, X, NewCell, NewBoard),!,
-  attackColumnNeg(NewBoard, X, Y1, EndBoard).
+  attackColumnNeg(NewBoard, X, Y1, EndBoard)
+  ;
+  false
+  ).
 
 attackColumnPos(Board, _, 7, Board).
 
 attackColumnPos(Board, X, Y, EndBoard):-
   Y1 is Y + 1,
+  (
   getMatrixAt(Y1, X, Board, Cell),
+  member(Cell, [0,1,2,3,4,5,6,7]),
   NewCell is Cell + 1,
   replace(Board, Y1, X, NewCell, NewBoard),!,
-  attackColumnPos(NewBoard, X, Y1, EndBoard).
+  attackColumnPos(NewBoard, X, Y1, EndBoard)
+  ;
+  false
+  ).
 
 
 % ATTACK DIAGONAL
@@ -341,10 +434,15 @@ attackDiagonalLeftPos(Board, 0, _, Board).
 attackDiagonalLeftPos(Board, X, Y, EndBoard):-
   Y1 is Y + 1,
   X1 is X - 1,
+  (
   getMatrixAt(Y1, X1, Board, Cell),
+  member(Cell, [0,1,2,3,4,5,6,7]),
   NewCell is Cell + 1,
-  replace(Board, Y1, X1, NewCell, NewBoard),!,
-  attackDiagonalLeftPos(NewBoard, X1, Y1, EndBoard).
+  replace(Board, Y1, X1, NewCell, NewBoard),
+  attackDiagonalLeftPos(NewBoard, X1, Y1, EndBoard)
+  ;
+  false
+  ).
 
 attackDiagonalRightPos(Board, _, 7, Board).
 attackDiagonalRightPos(Board, 7, _, Board).
@@ -352,10 +450,15 @@ attackDiagonalRightPos(Board, 7, _, Board).
 attackDiagonalRightPos(Board, X, Y, EndBoard):-
   Y1 is Y + 1,
   X1 is X + 1,
+  (
   getMatrixAt(Y1, X1, Board, Cell),
+  member(Cell, [0,1,2,3,4,5,6,7]),
   NewCell is Cell + 1,
-  replace(Board, Y1, X1, NewCell, NewBoard),!,
-  attackDiagonalRightPos(NewBoard, X1, Y1, EndBoard).
+  replace(Board, Y1, X1, NewCell, NewBoard),
+  attackDiagonalRightPos(NewBoard, X1, Y1, EndBoard)
+  ;
+  false
+  ).
 
 attackDiagonalLeftNeg(Board, _, 0, Board).
 attackDiagonalLeftNeg(Board, 0, _, Board).
@@ -363,10 +466,15 @@ attackDiagonalLeftNeg(Board, 0, _, Board).
 attackDiagonalLeftNeg(Board, X, Y, EndBoard):-
   Y1 is Y - 1,
   X1 is X - 1,
+  (
   getMatrixAt(Y1, X1, Board, Cell),
+  member(Cell, [0,1,2,3,4,5,6,7]),
   NewCell is Cell + 1,
-  replace(Board, Y1, X1, NewCell, NewBoard),!,
-  attackDiagonalLeftNeg(NewBoard, X1, Y1, EndBoard).
+  replace(Board, Y1, X1, NewCell, NewBoard),
+  attackDiagonalLeftNeg(NewBoard, X1, Y1, EndBoard)
+  ;
+  false
+  ).
 
 attackDiagonalRightNeg(Board, _, 0, Board).
 attackDiagonalRightNeg(Board, 7, _, Board).
@@ -374,12 +482,17 @@ attackDiagonalRightNeg(Board, 7, _, Board).
 attackDiagonalRightNeg(Board, X, Y, EndBoard):-
   Y1 is Y - 1,
   X1 is X + 1,
+  (
   getMatrixAt(Y1, X1, Board, Cell),
+  member(Cell, [0,1,2,3,4,5,6,7]),
   NewCell is Cell + 1,
-  replace(Board, Y1, X1, NewCell, NewBoard),!,
-  attackDiagonalRightNeg(NewBoard, X1, Y1, EndBoard).
+  replace(Board, Y1, X1, NewCell, NewBoard),
+  attackDiagonalRightNeg(NewBoard, X1, Y1, EndBoard)
+  ;
+  false
+  ).
 
-
+attackDiagonalRightNeg(Board, _, _, Board).
 
 
 
