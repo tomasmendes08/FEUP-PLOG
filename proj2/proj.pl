@@ -1,5 +1,7 @@
 :-consult('display.pl').
 :-consult('creation.pl').
+:-consult('horse.pl').
+:-consult('attacks.pl').
 :-use_module(library(lists)).
 play:-
     write('\33\[2J'),

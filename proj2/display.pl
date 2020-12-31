@@ -38,7 +38,7 @@ start:-
 start2:-
     ourBoard(B),
     printBoard(B),
-    place_Piece(B, 'Q').
+    placeAttacks(B).
 
 print_matrix([]).
 print_matrix([H|T]) :- write(H), nl, print_matrix(T).
