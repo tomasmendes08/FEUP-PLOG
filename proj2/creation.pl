@@ -2,7 +2,7 @@
 
 
 place_Piece(Board, Piece):-
-    rookAttack(Board, 6, 2, Board1),
+    rookAttack(Board, 5, 2, Board1),
     %bishopAttack(Board2, 2, 2, Board3),
     kingAttack(Board1, 3, 3, Board2),
     queenAttack(Board2, 5, 3, Board3),
@@ -405,6 +405,10 @@ attackColumnNeg(Board, X, Y, EndBoard):-
   false
   ).
 
+attackColumnNeg(Board, _, _, Board).
+
+
+
 attackColumnPos(Board, _, 7, Board).
 
 attackColumnPos(Board, X, Y, EndBoard):-
@@ -418,6 +422,8 @@ attackColumnPos(Board, X, Y, EndBoard):-
   ;
   false
   ).
+
+attackColumnPos(Board, _, _, Board).
 
 
 % ATTACK DIAGONAL
@@ -444,6 +450,10 @@ attackDiagonalLeftPos(Board, X, Y, EndBoard):-
   false
   ).
 
+attackDiagonalLeftPos(Board, _, _, Board).
+
+
+
 attackDiagonalRightPos(Board, _, 7, Board).
 attackDiagonalRightPos(Board, 7, _, Board).
 
@@ -460,6 +470,10 @@ attackDiagonalRightPos(Board, X, Y, EndBoard):-
   false
   ).
 
+attackDiagonalRightPos(Board, _, _, Board).
+
+
+
 attackDiagonalLeftNeg(Board, _, 0, Board).
 attackDiagonalLeftNeg(Board, 0, _, Board).
 
@@ -475,6 +489,10 @@ attackDiagonalLeftNeg(Board, X, Y, EndBoard):-
   ;
   false
   ).
+
+attackDiagonalLeftNeg(Board, _, _, Board).
+
+
 
 attackDiagonalRightNeg(Board, _, 0, Board).
 attackDiagonalRightNeg(Board, 7, _, Board).
