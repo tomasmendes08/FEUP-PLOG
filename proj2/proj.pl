@@ -1,6 +1,6 @@
 :-consult('display.pl').
 :-consult('creation.pl').
-
+:-use_module(library(lists)).
 play:-
     write('\33\[2J'),
     write('\n      WELCOME TO CHESS-NUM!     \n\n\n'),

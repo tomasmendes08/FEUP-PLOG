@@ -10,9 +10,25 @@ initialBoard([
 ]).
 
 testBoard([
-[ 1 , 0 , 1 ],
-[ 1 , 1 , 0 ],
-[' ', 1 , 1 ]
+[' ',' ',' ', 1 ,' ',' ',' ',' '],
+[' ',' ',' ', 1 ,' ',' ',' ',' '],
+[' ',' ',' ', 1 ,' ',' ',' ',' '],
+[ 1 , 1 , 1 ,' ', 1 , 1 , 1 , 1 ],
+[' ',' ',' ', 1 ,' ',' ',' ',' '],
+[' ',' ',' ', 1 ,' ',' ',' ',' '],
+[' ',' ',' ', 1 ,' ',' ',' ',' '],
+[' ',' ',' ', 1 ,' ',' ',' ',' ']
+]).
+
+ourBoard([
+[0, 0, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 0, 0, 0, 0, 0]
 ]).
 
 start:-
@@ -20,9 +36,9 @@ start:-
     printBoard(B).
 
 start2:-
-    testBoard(B),
+    ourBoard(B),
     printBoard(B),
-    place_Piece(B, 'Q'),
+    place_Piece(B, 'Q').
 
 print_matrix([]).
 print_matrix([H|T]) :- write(H), nl, print_matrix(T).
@@ -33,7 +49,7 @@ printBoard(B):-
     printLines(B, 1).
 
 /*X representa o nmr da linha*/
-printLines([], 4).
+printLines([], 9).
 printLines([H|T], X):-
     write('|  '),
     printLinesAux(H),
