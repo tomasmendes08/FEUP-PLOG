@@ -5,7 +5,9 @@ place_Piece(Board, Piece):-
     %queenAttack(Board, 7, 0, Board1),
     %rookAttack(Board1, 6, 3, Board2),
     %bishopAttack(Board2, 2, 2, Board3),
-    kingAttack(Board1, 1, 1, EndBoard),
+    %kingAttack(Board, 1, 1, Board1),
+    %pawnAttack(Board1, 5, 5, EndBoard),
+    knightAttack(Board, 1, 1, EndBoard),
     printBoard(EndBoard).
 
 
@@ -57,7 +59,7 @@ bishopAttack(Board, X, Y, EndBoard):-
   attackDiagonal(Board, X, Y, Board1),
   replace(Board1, Y, X, 'B', EndBoard).
 
-% ADDS KING ATTACK
+% ADDS KING ATTACKS
 
 kingAttack(Board, X, Y, EndBoard):-
   attackLeft(Board, X, Y, Board1),
@@ -70,7 +72,115 @@ kingAttack(Board, X, Y, EndBoard):-
   attackDownRight(Board7, X, Y, Board8),
   replace(Board8, Y, X, 'K', EndBoard).
 
+% ADDS PAWN ATTACKS
 
+pawnAttack(Board, X, Y, EndBoard):-
+  attackUpRight(Board, X, Y, Board1),
+  attackUpLeft(Board1, X, Y, Board2),
+  replace(Board2, Y, X, 'P', EndBoard).
+
+% ADDS KNIGHT ATTACKS
+
+knightAttack(Board, X, Y, EndBoard):-
+  attackKnightUpLeft(Board, X, Y, Board1),
+  attackKnightUpRight(Board1, X, Y, Board2),
+  attackKnightLeftUp(Board2, X, Y, Board3),
+  attackKnightLeftDown(Board3, X, Y, Board4),
+  attackKnightRightUp(Board4, X, Y, Board5),
+  attackKnightRightDown(Board5, X, Y, Board6),
+  attackKnightDownLeft(Board6, X, Y, Board7),
+  attackKnightDownRight(Board7, X, Y, Board8),
+  replace(Board8, Y, X, 'H', EndBoard).
+
+
+
+% KNIGHT ATTACK UP2 LEFT1
+
+attackKnightUpLeft(Board, X, Y, EndBoard):-
+  X1 is X - 1,
+  Y1 is Y - 2,
+  getMatrixAt(Y1, X1, Board, Cell),
+  NewCell is Cell + 1,
+  replace(Board, Y1, X1, NewCell, EndBoard).
+
+attackKnightUpLeft(Board, _, _, Board).
+
+% KNIGHT ATTACK UP2 RIGHT1
+
+attackKnightUpRight(Board, X, Y, EndBoard):-
+  X1 is X + 1,
+  Y1 is Y - 2,
+  getMatrixAt(Y1, X1, Board, Cell),
+  NewCell is Cell + 1,
+  replace(Board, Y1, X1, NewCell, EndBoard).
+
+attackKnightUpRight(Board, _, _, Board).
+
+% KNIGHT ATTACK LEFT2 UP1
+
+attackKnightLeftUp(Board, X, Y, EndBoard):-
+  X1 is X - 2,
+  Y1 is Y - 1,
+  getMatrixAt(Y1, X1, Board, Cell),
+  NewCell is Cell + 1,
+  replace(Board, Y1, X1, NewCell, EndBoard).
+
+attackKnightLeftUp(Board, _, _, Board).
+
+% KNIGHT ATTACK LEFT2 DOWN1
+
+attackKnightLeftDown(Board, X, Y, EndBoard):-
+  X1 is X - 2,
+  Y1 is Y + 1,
+  getMatrixAt(Y1, X1, Board, Cell),
+  NewCell is Cell + 1,
+  replace(Board, Y1, X1, NewCell, EndBoard).
+
+attackKnightLeftDown(Board, _, _, Board).
+
+% KNIGHT ATTACK RIGHT2 UP1
+
+attackKnightRightUp(Board, X, Y, EndBoard):-
+  X1 is X + 2,
+  Y1 is Y - 1,
+  getMatrixAt(Y1, X1, Board, Cell),
+  NewCell is Cell + 1,
+  replace(Board, Y1, X1, NewCell, EndBoard).
+
+attackKnightRightUp(Board, _, _, Board).
+
+% KNIGHT ATTACK RIGHT2 DOWN1
+
+attackKnightRightDown(Board, X, Y, EndBoard):-
+  X1 is X + 2,
+  Y1 is Y + 1,
+  getMatrixAt(Y1, X1, Board, Cell),
+  NewCell is Cell + 1,
+  replace(Board, Y1, X1, NewCell, EndBoard).
+
+attackKnightRightDown(Board, _, _, Board).
+
+% KNIGHT ATTACK DOWN2 LEFT1
+
+attackKnightDownLeft(Board, X, Y, EndBoard):-
+  X1 is X - 1,
+  Y1 is Y + 2,
+  getMatrixAt(Y1, X1, Board, Cell),
+  NewCell is Cell + 1,
+  replace(Board, Y1, X1, NewCell, EndBoard).
+
+attackKnightDownLeft(Board, _, _, Board).
+
+% KNIGHT ATTACK DOWN2 RIGHT1
+
+attackKnightDownRight(Board, X, Y, EndBoard):-
+  X1 is X + 1,
+  Y1 is Y + 2,
+  getMatrixAt(Y1, X1, Board, Cell),
+  NewCell is Cell + 1,
+  replace(Board, Y1, X1, NewCell, EndBoard).
+
+attackKnightDownRight(Board, _, _, Board).
 
 % ATTACK LEFT 
 
