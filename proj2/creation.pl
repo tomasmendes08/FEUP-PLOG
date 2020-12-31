@@ -2,9 +2,10 @@
 
 
 place_Piece(Board, Piece):-
-    queenAttack(Board, 4, 2, Board1),
-    rookAttack(Board1, 6, 3, Board2),
-    bishopAttack(Board2, 2, 2, EndBoard),
+    %queenAttack(Board, 7, 0, Board1),
+    %rookAttack(Board1, 6, 3, Board2),
+    %bishopAttack(Board2, 2, 2, Board3),
+    kingAttack(Board1, 1, 1, EndBoard),
     printBoard(EndBoard).
 
 
@@ -38,23 +39,136 @@ replace_column( [C|Cs] , Y , Z , [C|Rs] ) :-    % otherwise,
 % ADDS QUEEN ATTACKS
 
 queenAttack(Board, X, Y, EndBoard):-
-    attackRow(Board, X, Y, Board1),
-    attackColumn(Board1, X, Y, Board2),
-    attackDiagonal(Board2, X, Y, Board3),
-    replace(Board3, Y, X, 'Q', EndBoard).
+  attackRow(Board, X, Y, Board1),
+  attackColumn(Board1, X, Y, Board2),
+  attackDiagonal(Board2, X, Y, Board3),
+  replace(Board3, Y, X, 'Q', EndBoard).
+
+% ADDS ROOK ATTACKS
 
 rookAttack(Board, X, Y, EndBoard):-
-    attackRow(Board, X, Y, Board1),
-    attackColumn(Board1, X, Y, Board2),
-    replace(Board2, Y, X, 'R', EndBoard).
+  attackRow(Board, X, Y, Board1),
+  attackColumn(Board1, X, Y, Board2),
+  replace(Board2, Y, X, 'R', EndBoard).
+
+% ADDS BISHOP ATTACKS
 
 bishopAttack(Board, X, Y, EndBoard):-
-    attackDiagonal(Board, X, Y, Board1),
-    replace(Board1, Y, X, 'B', EndBoard).
+  attackDiagonal(Board, X, Y, Board1),
+  replace(Board1, Y, X, 'B', EndBoard).
 
+% ADDS KING ATTACK
+
+kingAttack(Board, X, Y, EndBoard):-
+  attackLeft(Board, X, Y, Board1),
+  attackRight(Board1, X, Y, Board2),
+  attackUp(Board2, X, Y, Board3),
+  attackDown(Board3, X, Y, Board4),
+  attackUpLeft(Board4, X, Y, Board5),
+  attackUpRight(Board5, X, Y, Board6),
+  attackDownLeft(Board6, X, Y, Board7),
+  attackDownRight(Board7, X, Y, Board8),
+  replace(Board8, Y, X, 'K', EndBoard).
+
+
+
+% ATTACK LEFT 
+
+attackLeft(Board, X, Y, EndBoard):-
+  X1 is X - 1,
+  getMatrixAt(Y, X1, Board, Cell),
+  NewCell is Cell + 1,
+  replace(Board, Y, X1, NewCell, EndBoard).
+
+attackLeft(Board, _, _, Board).
+
+% ATTACK RIGHT 
+
+attackRight(Board, X, Y, EndBoard):-
+  X1 is X + 1,
+  getMatrixAt(Y, X1, Board, Cell),
+  NewCell is Cell + 1,
+  replace(Board, Y, X1, NewCell, EndBoard).
+
+attackRight(Board, _, _, Board).
+
+
+% ATTACK UP
+
+attackUp(Board, X, Y, EndBoard):-
+  Y1 is Y - 1,
+  getMatrixAt(Y1, X, Board, Cell),
+  NewCell is Cell + 1,
+  replace(Board, Y1, X, NewCell, EndBoard).
+
+attackUp(Board, _, _, Board).
+
+% ATTACK DOWN
+
+attackDown(Board, X, Y, EndBoard):-
+  Y1 is Y + 1,
+  getMatrixAt(Y1, X, Board, Cell),
+  NewCell is Cell + 1,
+  replace(Board, Y1, X, NewCell, EndBoard).
+
+attackDown(Board, _, _, Board).
+
+% ATTACK UPLEFT
+
+attackUpLeft(Board, X, Y, EndBoard):-
+  X1 is X - 1,
+  Y1 is Y - 1,
+  getMatrixAt(Y1, X1, Board, Cell),
+  NewCell is Cell + 1,
+  replace(Board, Y1, X1, NewCell, EndBoard).
+
+attackUpLeft(Board, _, _, Board).
+
+% ATTACK DOWNLEFT
+
+attackDownLeft(Board, X, Y, EndBoard):-
+  X1 is X - 1,
+  Y1 is Y + 1,
+  getMatrixAt(Y1, X1, Board, Cell),
+  NewCell is Cell + 1,
+  replace(Board, Y1, X1, NewCell, EndBoard).
+
+attackDownLeft(Board, _, _, Board).
+
+% ATTACK DOWNRIGHT
+
+attackDownRight(Board, X, Y, EndBoard):-
+  X1 is X + 1,
+  Y1 is Y + 1,
+  getMatrixAt(Y1, X1, Board, Cell),
+  NewCell is Cell + 1,
+  replace(Board, Y1, X1, NewCell, EndBoard).
+
+attackDownRight(Board, _, _, Board).
+
+% ATTACK UPRIGHT
+
+attackUpRight(Board, X, Y, EndBoard):-
+  X1 is X + 1,
+  Y1 is Y - 1,
+  getMatrixAt(Y1, X1, Board, Cell),
+  NewCell is Cell + 1,
+  replace(Board, Y1, X1, NewCell, EndBoard).
+
+attackUpRight(Board, _, _, Board).
 
 
 % ATTACK LINE
+
+attackRight(Board, X, Y, EndBoard):-
+  X1 is X + 1,
+  (
+  getMatrixAt(Y, X1, Board, Cell),
+  NewCell is Cell + 1,
+  replace(Board, Y, X1, NewCell, EndBoard)
+  ;
+  EndBoard is Board
+  ).
 
 attackRow(Board, X, Y, EndBoard):-
   attackRowNeg(Board, X, Y, NewBoard),
@@ -68,6 +182,7 @@ attackRowNeg(Board, X, Y, EndBoard):-
   NewCell is Cell + 1,
   replace(Board, Y, X1, NewCell, NewBoard),!,
   attackRowNeg(NewBoard, X1, Y, EndBoard).
+
 attackRowPos(Board, 7, _, Board).
 
 attackRowPos(Board, X, Y, EndBoard):-
