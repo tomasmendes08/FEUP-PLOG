@@ -3,6 +3,7 @@
 
 place_Piece(Board, Piece):-
     queenAttack(Board, 4, 2, NewBoard),
+    %towerAttack(Board, 6, 3, NewBoard),
     printBoard(NewBoard).
 
 
@@ -38,8 +39,8 @@ replace_column( [C|Cs] , Y , Z , [C|Rs] ) :-    % otherwise,
 queenAttack(Board, X, Y, EndBoard):-
     queenAttackRow(Board, X, Y, Board1),
     queenAttackColumn(Board1, X, Y, Board2),
-    replace(Board2, Y, X, 'Q', EndBoard).
-    %queenAttackDiagonal(Board2, X, Y, NewBoard),
+    queenAttackDiagonal(Board2, X, Y, Board3),
+    replace(Board3, Y, X, 'Q', EndBoard).
 
 
 
@@ -91,6 +92,61 @@ queenAttackColumnPos(Board, X, Y, EndBoard):-
   NewCell is Cell + 1,
   replace(Board, Y1, X, NewCell, NewBoard),!,
   queenAttackColumnPos(NewBoard, X, Y1, EndBoard).
+
+
+% QUEEN DIAGONAL
+
+queenAttackDiagonal(Board, X, Y, EndBoard):-
+  queenAttackDiagonalLeftNeg(Board, X, Y, Board1),
+  queenAttackDiagonalRightNeg(Board1, X, Y, Board2),
+  queenAttackDiagonalLeftPos(Board2, X, Y, Board3),
+  queenAttackDiagonalRightPos(Board3, X, Y, EndBoard).
+
+queenAttackDiagonalLeftPos(Board, _, 7, Board).
+queenAttackDiagonalLeftPos(Board, 0, _, Board).
+
+queenAttackDiagonalLeftPos(Board, X, Y, EndBoard):-
+  Y1 is Y + 1,
+  X1 is X - 1,
+  getMatrixAt(Y1, X1, Board, Cell),
+  NewCell is Cell + 1,
+  replace(Board, Y1, X1, NewCell, NewBoard),!,
+  queenAttackDiagonalLeftPos(NewBoard, X1, Y1, EndBoard).
+
+queenAttackDiagonalRightPos(Board, _, 7, Board).
+queenAttackDiagonalRightPos(Board, 7, _, Board).
+
+queenAttackDiagonalRightPos(Board, X, Y, EndBoard):-
+  Y1 is Y + 1,
+  X1 is X + 1,
+  getMatrixAt(Y1, X1, Board, Cell),
+  NewCell is Cell + 1,
+  replace(Board, Y1, X1, NewCell, NewBoard),!,
+  queenAttackDiagonalRightPos(NewBoard, X1, Y1, EndBoard).
+
+queenAttackDiagonalLeftNeg(Board, _, 0, Board).
+queenAttackDiagonalLeftNeg(Board, 0, _, Board).
+
+queenAttackDiagonalLeftNeg(Board, X, Y, EndBoard):-
+  Y1 is Y - 1,
+  X1 is X - 1,
+  getMatrixAt(Y1, X1, Board, Cell),
+  NewCell is Cell + 1,
+  replace(Board, Y1, X1, NewCell, NewBoard),!,
+  queenAttackDiagonalLeftNeg(NewBoard, X1, Y1, EndBoard).
+
+queenAttackDiagonalRightNeg(Board, _, 0, Board).
+queenAttackDiagonalRightNeg(Board, 7, _, Board).
+
+queenAttackDiagonalRightNeg(Board, X, Y, EndBoard):-
+  Y1 is Y - 1,
+  X1 is X + 1,
+  getMatrixAt(Y1, X1, Board, Cell),
+  NewCell is Cell + 1,
+  replace(Board, Y1, X1, NewCell, NewBoard),!,
+  queenAttackDiagonalRightNeg(NewBoard, X1, Y1, EndBoard).
+
+
 
 
 
