@@ -3,6 +3,7 @@
 :-consult('horse.pl').
 :-consult('attacks.pl').
 :-use_module(library(lists)).
+:-use_module(library(random)).
 play:-
     write('\33\[2J'),
     write('\n      WELCOME TO CHESS-NUM!     \n\n\n'),

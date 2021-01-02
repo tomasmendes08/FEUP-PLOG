@@ -3,24 +3,36 @@
 
 placeAttacks(Board):-
     placePiece(Board, NextBoard),
-    rookAttack(NextBoard, 3, 0, Board1),
-    bishopAttack(Board1, 2, 5, Board2),
-    kingAttack(Board2, 7, 1, Board3),
-    queenAttack(Board3, 0, 1, Board4),
-    knightAttack(Board4, 6, 3, Board5),
-    pawnAttack(Board5, 5, 4, EndBoard),
-    printBoard(EndBoard).
+    printBoard(NextBoard).
 
 
 placePiece(Board, EndBoard):-
-  replace(Board, 1, 0, 'Q', Board1),
-  replace(Board1, 0, 3, 'R', Board2),
-  replace(Board2, 4, 5, 'P', Board3),
-  replace(Board3, 1, 7, 'K', Board4),
-  replace(Board4, 5, 2, 'B', Board5),
-  replace(Board5, 3, 6, 'H', EndBoard),
-  printBoard(EndBoard).
+  (
+  random(0, 7, Qx), random(0, 7, Qy), random(0, 7, Rx), random(0, 7, Ry),
+  random(0, 7, Px), random(0, 7, Py), random(0, 7, Kx), random(0, 7, Ky),
+  random(0, 7, Bx), random(0, 7, By), random(0, 7, Hx), random(0, 7, Hy),
+  unique([[Qx, Qy], [Rx, Ry], [Px, Py], [Kx, Ky], [Bx, By], [Hx, Hy]]),
+  replace(Board, Qy, Qx, 'Q', Board1),
+  replace(Board1, Ry, Rx, 'R', Board2),
+  replace(Board2, Py, Px, 'P', Board3),
+  replace(Board3, Ky, Kx, 'K', Board4),
+  replace(Board4, By, Bx, 'B', Board5),
+  replace(Board5, Hy, Hx, 'H', Board6),
+  rookAttack(Board6, Rx, Ry, Board7),
+  bishopAttack(Board7, Bx, By, Board8),
+  kingAttack(Board8, Kx, Ky, Board9),
+  queenAttack(Board9, Qx, Qy, Board10),
+  knightAttack(Board10, Hx, Hy, Board11),
+  pawnAttack(Board11, Px, Py, EndBoard),
+  printBoard(EndBoard)
+  ;
+  placePiece(Board, EndBoard)
+  ).
 
+% CHECK IF NO PIECES ARE ON TOP OF EACH OTHER
+
+unique([]).
+unique([X|Xs]) :- \+ member(X, Xs), unique(Xs).
 
 
 % GET THE CELL AT CERTAIN COORDINATES
@@ -33,7 +45,7 @@ getMatrixAt(Row, Col, Matrix, Cell):-
 % REPLACE CELL WITH PIECE
 
 replace( [L|Ls] , 0 , Y , Piece , [R|Ls] ) :-   % once we find the desired row, (Está a fazer Y,X)
-  replace_column(L,Y,Piece,R).                      % - we replace specified column, and we're done.
+  replace_column(L,Y,Piece,R).                  % - we replace specified column, and we're done.
 
 
 replace( [L|Ls] , X , Y , Z , [L|Rs] ) :-       % if we haven't found the desired row yet
