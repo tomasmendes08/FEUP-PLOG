@@ -4,10 +4,18 @@
 placeAttacks(Board):-
     placePiece(Board, NextBoard),
     printBoard(NextBoard).
+    
 
 
 placePiece(Board, EndBoard):-
   (
+  tryPlacingPiece(Board, EndBoard)
+  ;
+  placePiece(Board, EndBoard)
+  ).
+
+
+tryPlacingPiece(Board, EndBoard):-
   random(0, 7, Qx), random(0, 7, Qy), random(0, 7, Rx), random(0, 7, Ry),
   random(0, 7, Px), random(0, 7, Py), random(0, 7, Kx), random(0, 7, Ky),
   random(0, 7, Bx), random(0, 7, By), random(0, 7, Hx), random(0, 7, Hy),
@@ -24,10 +32,26 @@ placePiece(Board, EndBoard):-
   queenAttack(Board9, Qx, Qy, Board10),
   knightAttack(Board10, Hx, Hy, Board11),
   pawnAttack(Board11, Px, Py, EndBoard),
-  printBoard(EndBoard)
-  ;
-  placePiece(Board, EndBoard)
-  ).
+  %printBoard(EndBoard),
+  testBoard1(Input),!,
+  checkOver(EndBoard, Input),
+  printBoard(EndBoard).
+
+
+
+% CHECK IF THE BOARD IS CORRET
+
+checkOver(_, []).
+
+checkOver(Board, [[A, B, C]|Tail]):-
+  %write(A),
+  %write(B),
+  %write(C),nl,
+  getMatrixAt(B, A, Board, Cell),!,
+  member(Cell, [0,1,2,3,4,5,6,7]),
+  C =:= Cell,
+  checkOver(Board, Tail).
+
 
 % CHECK IF NO PIECES ARE ON TOP OF EACH OTHER
 

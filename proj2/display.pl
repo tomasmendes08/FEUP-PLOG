@@ -22,10 +22,11 @@ testBoard([
 ]).
 */
 
-% Algo do genero [1, 1, 0] (por um 1 na posição 1,0)
-% [6, 3, 0], [2, 4, 2], [0, 3, 4]
+% (x, y, Valor)
 
-testBoard([[1, 1, 0], [6, 3, 0], [2, 4, 2], [0, 3, 4]]).
+testBoard([[1, 0, 1], [3, 0, 6]]).
+
+testBoard1([[2, 0, 4], [5, 3, 1]]).
 
 startBoard([
 [0, 0, 0, 0, 0, 0, 0, 0],
