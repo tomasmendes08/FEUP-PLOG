@@ -39,9 +39,6 @@ tryPlacingPiece(Board, EndBoard, Input):-
 checkOver(_, []).
 
 checkOver(Board, [[A, B, C]|Tail]):-
-  %write(A),
-  %write(B),
-  %write(C),nl,
   getMatrixAt(B, A, Board, Cell),!,
   member(Cell, [0,1,2,3,4,5,6,7]),
   C =:= Cell,
