@@ -1,21 +1,18 @@
-
-
-
-placeAttacks(Board):-
-    placePiece(Board, NextBoard),
+placeAttacks(Board, Input):-
+    placePiece(Board, NextBoard, Input),
     printBoard(NextBoard).
     
 
 
-placePiece(Board, EndBoard):-
+placePiece(Board, EndBoard, Input):-
   (
-  tryPlacingPiece(Board, EndBoard)
+  tryPlacingPiece(Board, EndBoard, Input)
   ;
-  placePiece(Board, EndBoard)
+  placePiece(Board, EndBoard, Input)
   ).
 
 
-tryPlacingPiece(Board, EndBoard):-
+tryPlacingPiece(Board, EndBoard, Input):-
   random(0, 7, Qx), random(0, 7, Qy), random(0, 7, Rx), random(0, 7, Ry),
   random(0, 7, Px), random(0, 7, Py), random(0, 7, Kx), random(0, 7, Ky),
   random(0, 7, Bx), random(0, 7, By), random(0, 7, Hx), random(0, 7, Hy),
@@ -31,9 +28,7 @@ tryPlacingPiece(Board, EndBoard):-
   kingAttack(Board8, Kx, Ky, Board9),
   queenAttack(Board9, Qx, Qy, Board10),
   knightAttack(Board10, Hx, Hy, Board11),
-  pawnAttack(Board11, Px, Py, EndBoard),
-  %printBoard(EndBoard),
-  testBoard1(Input),!,
+  pawnAttack(Board11, Px, Py, EndBoard),!,
   checkOver(EndBoard, Input),
   printBoard(EndBoard).
 

@@ -1,32 +1,12 @@
-initialBoard([
-[' ',' ',' ',' ',' ',' ',' ',' '],
-[' ',' ', 4 ,' ',' ',' ',' ',' '],
-[' ',' ',' ',' ',' ',' ',' ',' '],
-[' ',' ',' ',' ',' ',' ', 4 ,' '],
-[' ',' ',' ',' ',' ',' ',' ',' '],
-[ 0 ,' ',' ',' ',' ',' ',' ',' '],
-[' ',' ',' ',' ',' ',' ',' ',' '],
-[' ',' ', 4 ,' ',' ',' ',' ',' ']
-]).
+testBoard1([[1, 0, 1], [3, 0, 6]]).
 
-/*
-testBoard([
-[0, 1, 0, 6, 0, 0, 0, 0],
-[0, 0, 0, 0, 0, 0, 0, 0],
-[0, 0, 0, 0, 2, 0, 0, 0],
-[0, 0, 0, 0, 0, 0, 0, 0],
-[0, 0, 0, 0, 0, 0, 0, 0],
-[0, 0, 0, 0, 0, 0, 0, 0],
-[0, 0, 0, 0, 0, 0, 0, 0],
-[0, 0, 0, 0, 0, 0, 0, 0]
-]).
-*/
+testBoard2([[2, 0, 4], [5, 3, 1]]).
 
-% (x, y, Valor)
+testBoard3([[1, 1, 2], [4, 3, 3]]).
 
-testBoard([[1, 0, 1], [3, 0, 6]]).
+testBoard4([[1, 1, 2], [4, 3, 3]]).
 
-testBoard1([[2, 0, 4], [5, 3, 1]]).
+testBoard5([[1, 1, 2], [4, 3, 3]]).
 
 startBoard([
 [0, 0, 0, 0, 0, 0, 0, 0],
@@ -39,14 +19,31 @@ startBoard([
 [0, 0, 0, 0, 0, 0, 0, 0]
 ]).
 
-start:-
-    initialBoard(B),
-    printBoard(B).
-
-start2:-
+start(1):-
     startBoard(B),
-    printBoard(B),
-    placeAttacks(B).
+    testBoard1(Input),
+    placeAttacks(B, Input).
+
+start(2):-
+    startBoard(B),
+    testBoard2(Input),
+    placeAttacks(B, Input).
+
+start(3):-
+    startBoard(B),
+    testBoard3(Input),
+    placeAttacks(B, Input).
+
+start(4):-
+    startBoard(B),
+    testBoard4(Input),
+    placeAttacks(B, Input).
+
+start(5):-
+    startBoard(B),
+    testBoard5(Input),
+    placeAttacks(B, Input).
+
 
 print_matrix([]).
 print_matrix([H|T]) :- write(H), nl, print_matrix(T).
